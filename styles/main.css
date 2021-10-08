@@ -16,17 +16,36 @@ h1 {
 
 #screen {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   padding: 30px;
 }
 
-#screen div {
+#message-screen {
   background-color: rgb(13, 23, 14);
   width: 600px;
   height: 60px;
   text-align: center;
   border: 2px solid grey;
   font-family: "Gemunu Libre", sans-serif;
+}
+
+#button-section {
+  padding-top: 20px;
+}
+
+button {
+  background-color: rgb(13, 23, 14);
+  border: 1px solid rgb(43, 255, 0);
+  padding: 5px 15px;
+  border-radius: 2px;
+  box-shadow: 1px 1px 5px rgb(43, 255, 0);
+}
+
+button:hover {
+  color: rgb(216, 5, 5);
+  border: 1px solid rgb(216, 5, 5);
+  box-shadow: 1px 1px 5px rgb(216, 5, 5);
 }
 
 #message {
@@ -65,8 +84,11 @@ h1 {
 .comp-grid {
   width: 80px;
   height: 80px;
-  border: 1px solid rgb(43, 255, 0);
   background-color: rgb(13, 23, 14);
+}
+
+.grid-on {
+  border: 1px solid rgb(43, 255, 0);
   box-shadow: 1px 1px 15px rgb(43, 255, 0);
 }
 
@@ -78,4 +100,23 @@ h1 {
 .hit {
   background-color: rgb(4, 140, 33);
   border-color: rgb(43, 255, 0);
+}
+
+.hidden {
+  display: none;
+}
+
+.danger {
+  animation: danger 1s alternate infinite;
+}
+
+@keyframes danger {
+  from {
+    border: 1px solid rgb(43, 255, 0);
+    box-shadow: 1px 1px 15px rgb(43, 255, 0);
+  }
+  to {
+    border: 1px solid rgb(255, 25, 0);
+    box-shadow: 1px 1px 15px rgb(255, 25, 0);
+  }
 }

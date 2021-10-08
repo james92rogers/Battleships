@@ -134,22 +134,77 @@ function compareShips(){
     const enemyGrid = document.querySelectorAll(".comp-grid")
     const playerGrid = document.querySelectorAll(".player-grid")
     const messageScreen = document.querySelector("#message")
+    const startButton = document.querySelector("#start-button")
+    const playerStats = document.querySelector("#player-stats")
+    const compStats = document.querySelector("#comp-stats")
+    const compLives = document.querySelector("#comp-lives")
 
-    
+    function checkCompHealth(){
+        if(computerPieces.length <= 0){
+            messageScreen.textContent = "You have succesfully defeated the enemy"
+        } else if (computerPieces.length <= 5){
+            enemyGrid.forEach(grid => grid.classList.add("danger"))
+        }
+    }
+
+
     function test(event){
-        computerPieces = computer.ship1.concat(computer.ship2).concat(computer.ship3).concat(computer.ship4).concat(computer.ship5)
         const value = parseFloat(event.target.getAttribute("value"))
     if (computerPieces.includes(value)){
         event.target.classList.add("hit")
+        messageScreen.textContent = "A succesful hit!"
         const index = computerPieces.indexOf(value)
         computerPieces.splice(index, 1)
+        compLives.textContent = computerPieces.length
     } else {
       event.target.classList.toggle("miss")
+      messageScreen.textContent = "Nice try, but alas, it was a miss"
     }
+    checkCompHealth()
+    }
+
+    function placeShip(event){
+        const value = parseFloat(event.target.getAttribute("value"))
+        event.target.classList.add("hit")
+        player.ship1.push(value)
+        console.log(player.ship1)
+    }
+
+function checkValid(arr, x){
+    if((arr[0] - arr[3]) === -3 || (arr[0] - arr[3]) === 3 || (arr[0] - arr[3]) === -30 || (arr[0] - arr[3]) === 30 && arr.length === x){
+        console.log("valid ship placement")
+    } else {
+        arr = []
+        console.log("invalid ship")
+    //    playerSetShip1()
+    }
+}
+
+    function playerSetShip1(){
+        messageScreen.textContent = "please start by deploying your destroyer (4 in length)"
+        playerGrid.forEach(grid => grid.addEventListener("click", placeShip))
+        checkValid(player.ship1, 4)
+    }
+
+    function playerSetShips(){
+        playerSetShip1()
     }
 
 
+    function setUpBoard() {
+        startButton.classList.add("hidden")
+        enemyGrid.forEach(grid => grid.classList.add("grid-on"))
+        playerGrid.forEach(grid => grid.classList.add("grid-on"))
+        playerStats.classList.remove("hidden")
+        compStats.classList.remove("hidden")
+    }
 
+function startGame(){
+    setUpBoard()
+    buildShips()
+    compLives.textContent = computerPieces.length
+  //  playerSetShips()
+}
 
-buildShips()
+startButton.addEventListener("click", startGame)
 enemyGrid.forEach(grid => grid.addEventListener("click", test))

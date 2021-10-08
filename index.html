@@ -19,11 +19,15 @@
     </header>
     <main>
       <section id="screen">
-        <div>
+        <div id="message-screen">
           <p id="message">
             We know the enemy have ships in our waters. Defeat them before they
             take out our fleet!
           </p>
+        </div>
+        <div id="button-section">
+          <button id="start-button">Start Game</button>
+          <button id="restart-button" class="hidden">Replay Game</button>
         </div>
       </section>
       <section id="grids">
@@ -107,11 +111,11 @@
         </div>
       </section>
       <section id="stats">
-        <div id="player-stats">
-          <p>Ships Remaining:</p>
+        <div id="player-stats" class="hidden">
+          <p>Ship Parts Remaining: <span id="player-lives">0</span></p>
         </div>
-        <div id="comp-stats">
-          <p>Ships Remaining:</p>
+        <div id="comp-stats" class="hidden">
+          <p>Ship Parts Remaining: <span id="comp-lives">0</span></p>
         </div>
       </section>
     </main>
