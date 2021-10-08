@@ -1,0 +1,81 @@
+* {
+  box-sizing: border-box;
+  color: rgb(43, 255, 0);
+}
+
+body {
+  background-color: black;
+}
+
+h1 {
+  font-family: "Stick No Bills", sans-serif;
+  text-align: center;
+  font-size: 65px;
+  margin: 0;
+}
+
+#screen {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+#screen div {
+  background-color: rgb(13, 23, 14);
+  width: 600px;
+  height: 60px;
+  text-align: center;
+  border: 2px solid grey;
+  font-family: "Gemunu Libre", sans-serif;
+}
+
+#message {
+  padding: 5px 1px;
+  font-size: 18px;
+  margin: 0;
+}
+
+#playable-area {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#player-map,
+#comp-map {
+  width: 500px;
+  background-color: rgb(94, 94, 94);
+  height: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+#stats {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#player-stats,
+#comp-stats {
+  width: 500px;
+  padding: 5px 5px;
+}
+
+.player-grid,
+.comp-grid {
+  width: 80px;
+  height: 80px;
+  border: 1px solid rgb(43, 255, 0);
+  background-color: rgb(13, 23, 14);
+  box-shadow: 1px 1px 15px rgb(43, 255, 0);
+}
+
+.miss {
+  background-color: rgb(96, 13, 13);
+  border-color: crimson;
+}
+
+.hit {
+  background-color: rgb(4, 140, 33);
+  border-color: rgb(43, 255, 0);
+}
