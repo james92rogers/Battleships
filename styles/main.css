@@ -108,6 +108,14 @@ button:hover {
   border-color: rgb(43, 255, 0);
 }
 
+.player-hit {
+  background-color: royalblue;
+}
+
+.player-miss {
+  background-color: yellow;
+}
+
 .hidden {
   display: none;
 }

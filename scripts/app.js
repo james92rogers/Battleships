@@ -15,6 +15,8 @@ const computer = {
     thisMoveHit: false,
     doubleHit: false,
     currentPick: 0,
+    lastPick: 0,
+    doubleHitPick: 0,
 }
 
 
@@ -159,29 +161,10 @@ function compareShips(){
     const compLives = document.querySelector("#comp-lives")
     const playerNumbers = document.querySelectorAll(".player-grid p")
 
-    function checkCompHealth(){
-        if(computerPieces.length <= 0){
-            messageScreen.textContent = "You have succesfully defeated the enemy"
-        } else if (computerPieces.length <= 5){
-            enemyGrid.forEach(grid => grid.classList.add("danger"))
-        }
-    }
+  
 
 
-    function test(event){
-        const value = parseFloat(event.target.getAttribute("value"))
-    if (computerPieces.includes(value)){
-        event.target.classList.add("hit")
-        messageScreen.textContent = "A succesful hit!"
-        const index = computerPieces.indexOf(value)
-        computerPieces.splice(index, 1)
-        compLives.textContent = computerPieces.length
-    } else {
-      event.target.classList.add("miss")
-      messageScreen.textContent = "Nice try, but alas, it was a miss"
-    }
-    checkCompHealth()
-    }
+    
 
   
         function fillPlayerGrid(arr){
@@ -287,7 +270,62 @@ function compareShips(){
         compStats.classList.remove("hidden")
     }
 
+
+    function checkCompHealth(){
+        if(computerPieces.length <= 0){
+            messageScreen.textContent = "You have succesfully defeated the enemy"
+        } else if (computerPieces.length <= 5){
+            enemyGrid.forEach(grid => grid.classList.add("danger"))
+        }
+    }
+
+    function playerFire(event){
+        const value = parseFloat(event.target.getAttribute("value"))
+    if (computerPieces.includes(value)){
+        event.target.classList.add("hit")
+        messageScreen.textContent = "A succesful hit!"
+        const index = computerPieces.indexOf(value)
+        computerPieces.splice(index, 1)
+        compLives.textContent = computerPieces.length
+    } else {
+      event.target.classList.add("miss")
+      messageScreen.textContent = "Nice try, but alas, it was a miss"
+    }
+    checkCompHealth()
+    }
+
+    function playerTurn(){
+        enemyGrid.forEach(grid => grid.addEventListener("click", playerFire))
+        checkCompHealth()
+    }
+
+    let availableMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]
+
+   
+    function computerTurn(){
+        let compChoice = availableMoves[Math.floor(Math.random() * availableMoves.length)]
+        console.log("comp chose " + compChoice)
+        console.log(playerPieces)
+        const index = availableMoves.indexOf(compChoice)
+        availableMoves.splice(index, 1)
+        const checkHit = playerPieces.indexOf(compChoice)
+        if(checkHit >= 0){
+            playerPieces.splice(checkHit, 1)
+            playerGrid[compChoice].classList.add("player-hit")
+        } else {
+            playerGrid[compChoice].classList.add("player-miss")
+        }
+
+    }
+
 function battleCommence(){
+    while(playerPieces.length > 0 && computerPieces.length > 0){
+        playerTurn()
+        computerTurn()
+    }
+    //endGame()
+    console.log("game is ended")
+    return
 
 }
 
@@ -297,8 +335,7 @@ function startGame(){
     buildShips()
     compLives.textContent = computerPieces.length
    playerSetShips()
-   //battleCommence()
+   battleCommence()
 }
 
 startButton.addEventListener("click", startGame)
-enemyGrid.forEach(grid => grid.addEventListener("click", test))
