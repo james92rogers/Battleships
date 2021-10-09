@@ -82,9 +82,15 @@ button:hover {
 
 .player-grid,
 .comp-grid {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   background-color: rgb(13, 23, 14);
+}
+
+.player-grid p {
+  font-size: 12px;
+  margin: 0;
+  padding: 3px;
 }
 
 .grid-on {
