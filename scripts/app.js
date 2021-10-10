@@ -4,6 +4,7 @@ const player = {
     ship3: [],
     ship4: [],
     ship5: [],
+    isTurn: true,
 }
 const computer = {
     ship1: [],
@@ -12,11 +13,9 @@ const computer = {
     ship4: [],
     ship5: [],
     lastMoveHit: false,
-    thisMoveHit: false,
-    doubleHit: false,
     currentPick: 0,
     lastPick: 0,
-    doubleHitPick: 0,
+    isTurn: true,
 }
 
 
@@ -25,6 +24,8 @@ let computerPieces = null
 let playerPieces = null
 let testForDuplicates = null
 let testForPlayerDuplicates = null
+let compChoice = 0
+let checkHit = null
 
 function establishFirstPartOfShip(arr){
     const shipPart1 = compGrid[Math.floor(Math.random() * compGrid.length)]
@@ -62,17 +63,18 @@ function createFourLongShip(arr){
     }
 
 
+
 function computerShip1(){
     establishFirstPartOfShip(computer.ship1)
     createFiveLongShip(computer.ship1)
-    console.log(computer.ship1)
+  //  console.log(computer.ship1)
 }
 
 function computerShip2(){
     computer.ship2 = []
     establishFirstPartOfShip(computer.ship2)
     createFourLongShip(computer.ship2)
-    console.log(computer.ship2)
+//    console.log(computer.ship2)
     compareShips()
    let check = (computerPieces.length !== Array.from(testForDuplicates).length) ? computerShip2() : null
 }
@@ -95,7 +97,7 @@ function computerShip3(){
     computer.ship3 = []
     establishFirstPartOfShip(computer.ship3)
     createThreeLongShip(computer.ship3)
-    console.log(computer.ship3)
+//    console.log(computer.ship3)
     compareShips()
     let check = (computerPieces.length !== Array.from(testForDuplicates).length) ? computerShip3() : null
 }
@@ -104,7 +106,7 @@ function computerShip4(){
     computer.ship4 = []
     establishFirstPartOfShip(computer.ship4)
     createThreeLongShip(computer.ship4)
-    console.log(computer.ship4)
+ //   console.log(computer.ship4)
     compareShips()
     let check = (computerPieces.length !== Array.from(testForDuplicates).length) ? computerShip4() : null
 }
@@ -121,7 +123,7 @@ function computerShip5(){
     computer.ship5 = []
     establishFirstPartOfShip(computer.ship5)
     createTwoLongShip(computer.ship5)
-    console.log(computer.ship5)
+  //  console.log(computer.ship5)
     compareShips()
     let check = (computerPieces.length !== Array.from(testForDuplicates).length) ? computerShip5() : null
 }
@@ -132,7 +134,7 @@ function buildShips(){
     computerShip3()
     computerShip4()
     computerShip5()
-    console.log(computerPieces)
+  //  console.log(computerPieces)
 }
 
 function clearComputerShips(){
@@ -146,8 +148,6 @@ function clearComputerShips(){
 function compareShips(){
     computerPieces = computer.ship1.concat(computer.ship2).concat(computer.ship3).concat(computer.ship4).concat(computer.ship5)
     testForDuplicates = new Set(computerPieces)
-    console.log(Array.from(testForDuplicates).length)
-    console.log(computerPieces.length)  
 }
  
     const enemyGrid = document.querySelectorAll(".comp-grid")
@@ -155,46 +155,37 @@ function compareShips(){
     //const playerValues = playerGrid.getAttribute("value")
     const messageScreen = document.querySelector("#message")
     const startButton = document.querySelector("#start-button")
+    const restartButton = document.querySelector("#restart-button")
     const playerStats = document.querySelector("#player-stats")
     const compStats = document.querySelector("#comp-stats")
     const playerLives = document.querySelector("#player-lives")
     const compLives = document.querySelector("#comp-lives")
     const playerNumbers = document.querySelectorAll(".player-grid p")
 
-  
-
-
-    
-
-  
-        function fillPlayerGrid(arr){
-            for(let i = 0; i < arr.length; i++){
-                playerGrid[arr[i]].classList.add("hit")
-                playerGrid[arr[i]].textContent = ""
-            }
-            return
-        }
+    function fillPlayerGrid(arr){  
+    for(let i = 0; i < arr.length; i++){
+            playerGrid[arr[i]].classList.add("player-ship")
+            playerGrid[arr[i]].textContent = ""
+        }      
+     return       
+     }
 
         function comparePlayerShips(){
             playerPieces = player.ship1.concat(player.ship2).concat(player.ship3).concat(player.ship4).concat(player.ship5)
             testForPlayerDuplicates = new Set(playerPieces)
-            console.log(playerPieces.length)
-            console.log(Array.from(testForPlayerDuplicates).length)
         }
+
 
       function playerSetShip1(){  
         let playerShip = window.prompt("Please select your grid placement for your carrier (5 in length) e.g. 8 16 24 32 40")
         player.ship1 = playerShip.split(" ").map(i => parseFloat(i))
         let diff = player.ship1[0] - player.ship1[4]
-        console.log(player.ship1[0], player.ship1[4])
-        console.log(diff)
         if(diff === 4 || diff === - 4 || diff === 32 || diff === -32){
             fillPlayerGrid(player.ship1)
         } else {
             window.alert("invalid ship placement. Please try again")
             playerSetShip1()
         }
-        console.log(player.ship1)
     }
 
     function playerSetShip2(){
@@ -257,7 +248,6 @@ function compareShips(){
         playerSetShip3()
         playerSetShip4()
         playerSetShip5()
-        console.log(playerPieces)
         playerNumbers.forEach(i => i.classList.add("hidden"))
         playerLives.textContent = playerPieces.length
     }
@@ -270,65 +260,101 @@ function compareShips(){
         compStats.classList.remove("hidden")
     }
 
+function endGame(){
+    console.log("the game is over")
+    player.isTurn = false
+    computer.isTurn = false
+    restartButton.classList.remove("hidden")
+}
 
-    function checkCompHealth(){
-        if(computerPieces.length <= 0){
+
+function checkHealth(){
+       if(computerPieces.length <= 0){
             messageScreen.textContent = "You have succesfully defeated the enemy"
         } else if (computerPieces.length <= 5){
             enemyGrid.forEach(grid => grid.classList.add("danger"))
         }
+        if(playerPieces.length <= 0){
+            messageScreen.textContent = "You have been defeated"
+        } else if (playerPieces.length <= 5){
+            playerGrid.forEach(grid => grid.classList.add("danger"))
+        }
     }
 
     function playerFire(event){
+        if(player.isTurn){
         const value = parseFloat(event.target.getAttribute("value"))
     if (computerPieces.includes(value)){
         event.target.classList.add("hit")
-        messageScreen.textContent = "A succesful hit!"
         const index = computerPieces.indexOf(value)
         computerPieces.splice(index, 1)
         compLives.textContent = computerPieces.length
     } else {
       event.target.classList.add("miss")
-      messageScreen.textContent = "Nice try, but alas, it was a miss"
     }
-    checkCompHealth()
+    checkHealth()
+    let continueCheck = (playerPieces.length > 0 && computerPieces.length > 0) ? computerTurn() : endGame()
+    }
     }
 
     function playerTurn(){
-        enemyGrid.forEach(grid => grid.addEventListener("click", playerFire))
-        checkCompHealth()
-    }
+    enemyGrid.forEach(grid => grid.addEventListener("click", playerFire))
+     }
+    
 
-    let availableMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]
+let availableMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]
+
+function computerSelectAfterMiss(){
+    compChoice = availableMoves[Math.floor(Math.random() * availableMoves.length)]
+    const index = availableMoves.indexOf(compChoice)
+    availableMoves.splice(index, 1)
+}
+
+function computerSelectAfterHit(){
+    let nextMoveChoices = null
+    if(computer.lastPick % 8 === 0){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 1 || i === computer.lastPick + 8 || i === computer.lastPick - 8)
+    } else if((computer.lastPick + 1) % 8 === 0){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 1 || i === computer.lastPick + 8 || i === computer.lastPick - 8)
+    } else{
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 1 || i === computer.lastPick - 1 || i === computer.lastPick + 8 || i === computer.lastPick - 8)
+    }
+    nextMoveChoices.length > 0 ? compChoice = nextMoveChoices[Math.floor(Math.random() * nextMoveChoices.length)] : computerSelectAfterMiss()
+    const index = availableMoves.indexOf(compChoice)
+    availableMoves.splice(index, 1)
+}
 
    
-    function computerTurn(){
-        let compChoice = availableMoves[Math.floor(Math.random() * availableMoves.length)]
-        console.log("comp chose " + compChoice)
-        console.log(playerPieces)
-        const index = availableMoves.indexOf(compChoice)
-        availableMoves.splice(index, 1)
-        const checkHit = playerPieces.indexOf(compChoice)
-        if(checkHit >= 0){
-            playerPieces.splice(checkHit, 1)
-            playerGrid[compChoice].classList.add("player-hit")
-        } else {
-            playerGrid[compChoice].classList.add("player-miss")
-        }
+const computerHit = () => {
+    playerPieces.splice(checkHit, 1)
+   // playerGrid[compChoice].classList.add("player-hit")
+   playerGrid[compChoice].innerHTML ='<i class="fas fa-burn"></i>'
+    playerLives.textContent = playerPieces.length
+    computer.lastMoveHit = true
+    computer.lastPick = compChoice
+    messageScreen.textContent = "They have hit one of our ships! Make them pay!"
+}
 
+function computerTurn(){
+    if(computer.isTurn){
+    computer.lastMoveHit ? computerSelectAfterHit() : computerSelectAfterMiss()
+    checkHit = playerPieces.indexOf(compChoice)
+    if(checkHit >= 0){
+        computerHit()
+    } else {
+        playerGrid[compChoice].classList.add("player-miss")
+        computer.lastMoveHit = false
+        messageScreen.textContent = "Luckily their shot missed our ships. Strike now while we still can!"
     }
+    checkHealth()
+    let continueCheck = (playerPieces.length > 0 && computerPieces.length > 0) ? playerTurn() : endGame()
+   }
+}
 
-function battleCommence(){
-    while(playerPieces.length > 0 && computerPieces.length > 0){
+function battleCommence(){    
         playerTurn()
         computerTurn()
     }
-    //endGame()
-    console.log("game is ended")
-    return
-
-}
-
 
 function startGame(){
     setUpBoard()
@@ -339,3 +365,26 @@ function startGame(){
 }
 
 startButton.addEventListener("click", startGame)
+
+
+function clearPlayerShips(){
+    player.ship1 = []
+    player.ship2 = []
+    player.ship3 = []
+    player.ship4 = []
+    player.ship5 = []
+}
+
+function restartGame(){
+    clearComputerShips()
+    clearPlayerShips()
+    playerGrid.forEach(i => i.classList.remove("player-ship", "player-miss", "player-hit", "danger"))
+    enemyGrid.forEach(i => i.classList.remove("hit", "miss", "danger"))
+    playerGrid.forEach(i => i.innerHTML = '')
+    restartButton.classList.add("hidden")
+    player.isTurn = true
+    computer.isTurn = true
+    startGame()
+}
+
+restartButton.addEventListener("click", restartGame)

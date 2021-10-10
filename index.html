@@ -12,6 +12,10 @@
       href="https://fonts.googleapis.com/css2?family=Gemunu+Libre&family=Stick+No+Bills&display=swap"
       rel="stylesheet"
     />
+    <script
+      src="https://kit.fontawesome.com/57d32ad41b.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <header>
@@ -28,6 +32,18 @@
         <div id="button-section">
           <button id="start-button">Start Game</button>
           <button id="restart-button" class="hidden">Replay Game</button>
+          <div id="#user2Ship" class="player-ship-selection">
+            <form id="#player-ship1-form" action="#" class="hidden">
+              <p>
+                Please select where you'd like to place your patrol boat (2
+                squares)
+              </p>
+              <div class="form-field">
+                <input id="#player2Ship" type="text" placeholder="e.g. 22 23" />
+                <input id="#player2ShipButton" type="submit" value="commit" />
+              </div>
+            </form>
+          </div>
         </div>
       </section>
       <section id="grids">

@@ -4,7 +4,8 @@
 }
 
 body {
-  background-color: black;
+  background: linear-gradient(0deg, rgb(9, 93, 138) -90%, rgb(0, 0, 0) 50%);
+  height: 100vh;
 }
 
 h1 {
@@ -54,6 +55,27 @@ button:hover {
   margin: 0;
 }
 
+.player-ship-selection {
+  text-align: center;
+  border: 1px solid rgb(43, 255, 0);
+  box-shadow: 1px 1px 5px rgb(43, 255, 0);
+}
+
+.player-ship-selection p {
+  margin: 0;
+  padding: 5px;
+  font-family: "Gemunu Libre", sans-serif;
+}
+
+input {
+  background-color: black;
+  border: 1px solid rgb(43, 255, 0);
+  box-shadow: 1px 1px 5px rgb(43, 255, 0);
+  color: rgb(247, 247, 247);
+  font-family: "Gemunu Libre", sans-serif;
+  margin-bottom: 5px;
+}
+
 #playable-area {
   display: flex;
   justify-content: space-evenly;
@@ -61,12 +83,13 @@ button:hover {
 
 #player-map,
 #comp-map {
-  width: 500px;
+  width: 490px;
   background-color: rgb(94, 94, 94);
-  height: 500px;
+  height: 490px;
   display: flex;
   flex-wrap: wrap;
-  padding: 10px;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 #stats {
@@ -85,6 +108,12 @@ button:hover {
   width: 60px;
   height: 60px;
   background-color: rgb(13, 23, 14);
+}
+
+.player-grid i {
+  font-size: 30px;
+  color: rgb(154, 6, 6);
+  margin: 14px 18px;
 }
 
 .player-grid p {
@@ -108,12 +137,17 @@ button:hover {
   border-color: rgb(43, 255, 0);
 }
 
+.player-ship {
+  background-color: rgb(4, 115, 140);
+}
+
 .player-hit {
   background-color: royalblue;
 }
 
 .player-miss {
-  background-color: yellow;
+  background-image: url("../assets/1200px-Cross_green_icon.svg.png");
+  background-size: contain;
 }
 
 .hidden {
