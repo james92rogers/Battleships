@@ -5,8 +5,6 @@ const player = {
     ship4: [],
     ship5: [],
     isTurn: true,
-    pickingShip1: true,
-    pickingShip2: false
 }
 const computer = {
     ship1: [],
@@ -72,14 +70,14 @@ function createFourLongShip(arr){
 function computerShip1(){
     establishFirstPartOfShip(computer.ship1)
     createFiveLongShip(computer.ship1)
-    console.log(computer.ship1)
+  //  console.log(computer.ship1)
 }
 
 function computerShip2(){
     computer.ship2 = []
     establishFirstPartOfShip(computer.ship2)
     createFourLongShip(computer.ship2)
-    console.log(computer.ship2)
+//    console.log(computer.ship2)
     compareShips()
    let check = (computerPieces.length !== Array.from(testForDuplicates).length) ? computerShip2() : null
 }
@@ -102,7 +100,7 @@ function computerShip3(){
     computer.ship3 = []
     establishFirstPartOfShip(computer.ship3)
     createThreeLongShip(computer.ship3)
-    console.log(computer.ship3)
+//    console.log(computer.ship3)
     compareShips()
     let check = (computerPieces.length !== Array.from(testForDuplicates).length) ? computerShip3() : null
 }
@@ -111,7 +109,7 @@ function computerShip4(){
     computer.ship4 = []
     establishFirstPartOfShip(computer.ship4)
     createThreeLongShip(computer.ship4)
-    console.log(computer.ship4)
+ //   console.log(computer.ship4)
     compareShips()
     let check = (computerPieces.length !== Array.from(testForDuplicates).length) ? computerShip4() : null
 }
@@ -128,7 +126,7 @@ function computerShip5(){
     computer.ship5 = []
     establishFirstPartOfShip(computer.ship5)
     createTwoLongShip(computer.ship5)
-   console.log(computer.ship5)
+  //  console.log(computer.ship5)
     compareShips()
     let check = (computerPieces.length !== Array.from(testForDuplicates).length) ? computerShip5() : null
 }
@@ -139,7 +137,7 @@ function buildShips(){
     computerShip3()
     computerShip4()
     computerShip5()
-    console.log(computerPieces)
+  //  console.log(computerPieces)
 }
 
 function clearComputerShips(){
@@ -185,51 +183,19 @@ function compareShips(){
 
         
 
-    // function playerSetShip1(){  
-    //     playerShip = window.prompt("Please select your grid placement for your carrier (5 in length) e.g. 8 16 24 32 40")
-    //    // testShip(player.ship1, 4, playerSetShip1)
-    //    // console.log(playerPieces)
-    //     player.ship1 = playerShip.split(" ").map(i => parseFloat(i))
-    //     let diff = player.ship1[0] - player.ship1[4]
-    //     if(diff === 4 || diff === - 4 || diff === 32 || diff === -32){
-    //         fillPlayerGrid(player.ship1)
-    //     } else {
-    //         window.alert("invalid ship placement. Please try again")
-    //         playerSetShip1()
-    //     }
-    // }
-
-    const submitButton = document.querySelector("#submit-button")
-    const inputValue = document.querySelector("#player-box")
-
-// function collectData(){
-//     const input = document.getElementById("player-box").value
-//     player.ship1 = input.split(" ").map(i => parseFloat(i))
-//     console.log(player.ship1)
-//     let diff = player.ship1[0] - player.ship1[4]
-//     if(diff === 4 || diff === - 4 || diff === 32 || diff === -32){
-//     fillPlayerGrid(player.ship1)
-//     console.log("now move to second ship")
-//     } else {
-//     window.alert("invalid ship placement. Please try again")
-//     playerSetShip1()
-//         }
-// }
-
-function collectData(){
-    playerShip = document.getElementById("player-box").value
-    testShip(player.ship1, 4, playerSetShip1)
-    console.log("now move onto ship 2")
+    function playerSetShip1(){  
+        playerShip = window.prompt("Please select your grid placement for your carrier (5 in length) e.g. 8 16 24 32 40")
+       // testShip(player.ship1, 4, playerSetShip1)
+       // console.log(playerPieces)
+        player.ship1 = playerShip.split(" ").map(i => parseFloat(i))
+        let diff = player.ship1[0] - player.ship1[4]
+        if(diff === 4 || diff === - 4 || diff === 32 || diff === -32){
+            fillPlayerGrid(player.ship1)
+        } else {
+            window.alert("invalid ship placement. Please try again")
+            playerSetShip1()
+        }
     }
-
-    const playerSetShip1 = function (){  
-        console.log("player ship 1 triggered")
-        messageScreen.textContent = "Please select your grid placement for your carrier (5 in length) e.g. 8 16 24 32 40"
-        submitButton.addEventListener("click", collectData)
-       }
-    
-    
-
 
     function testShip(arr, x, func){  
         arr = playerShip.split(" ").map(i => parseFloat(i))
@@ -242,22 +208,19 @@ function collectData(){
         }
     }    
   
-    function playerSetShip2(){
-        messageScreen.textContent = "Please select your grid placement for your battleship (4 in length) e.g. 3 4 5 6"
-       }
 
-    // function playerSetShip2(){
-    //     let playerShip = window.prompt("Please select your grid placement for your battleship (4 in length) e.g. 3 4 5 6")
-    //     player.ship2 = playerShip.split(" ").map(i => parseFloat(i))
-    //     comparePlayerShips()
-    //     let diff = player.ship2[0] - player.ship2[3]
-    //     if((diff === 3 || diff === -3 || diff === 24 || diff === - 24) && playerPieces.length === Array.from(testForPlayerDuplicates).length){
-    //         fillPlayerGrid(player.ship2)
-    //     } else {
-    //         window.alert("invalid ship placement. Please try again")
-    //         playerSetShip2()
-    //     }
-    // }
+    function playerSetShip2(){
+        let playerShip = window.prompt("Please select your grid placement for your battleship (4 in length) e.g. 3 4 5 6")
+        player.ship2 = playerShip.split(" ").map(i => parseFloat(i))
+        comparePlayerShips()
+        let diff = player.ship2[0] - player.ship2[3]
+        if((diff === 3 || diff === -3 || diff === 24 || diff === - 24) && playerPieces.length === Array.from(testForPlayerDuplicates).length){
+            fillPlayerGrid(player.ship2)
+        } else {
+            window.alert("invalid ship placement. Please try again")
+            playerSetShip2()
+        }
+    }
 
     function playerSetShip3(){
         let playerShip = window.prompt("Please select your grid placement for your destroyer (3 in length) e.g. 42 43 44")
@@ -302,12 +265,12 @@ function collectData(){
     function playerSetShips(){
         playerNumbers.forEach(i => i.classList.remove("hidden"))
         playerSetShip1()
-    //    playerSetShip2()
-    //    playerSetShip3()
-    //    playerSetShip4()
-    //    playerSetShip5()
-    //    playerNumbers.forEach(i => i.classList.add("hidden"))
-    //    playerLives.textContent = playerPieces.length
+        playerSetShip2()
+        playerSetShip3()
+        playerSetShip4()
+        playerSetShip5()
+        playerNumbers.forEach(i => i.classList.add("hidden"))
+        playerLives.textContent = playerPieces.length
     }
 
     function setUpBoard() {
@@ -348,7 +311,7 @@ function checkHealth(){
         const index = computerPieces.indexOf(value)
         computerPieces.splice(index, 1)
         compLives.textContent = computerPieces.length
-      //  audio.play()
+        audio.play()
     } else {
       event.target.classList.add("miss")
     }
@@ -386,7 +349,7 @@ function computerSelectAfterHit(){
 
    
 const computerHit = () => {
-    //audio.play()
+    audio.play()
     playerPieces.splice(checkHit, 1)
    // playerGrid[compChoice].classList.add("player-hit")
    playerGrid[compChoice].innerHTML ='<i class="fas fa-burn"></i>'
@@ -439,7 +402,7 @@ function computerTurn(){
     if(computer.isTurn){
     reassignPicks()    
     computer.lastMoveHit && computer.secondLastMoveHit ? computerSelectAfter2Hits()
-    : computer.secondLastMoveHit && !computer.lastMoveHit ? computerSelectAfterHitAndMiss()
+   // : computer.secondLastMoveHit && !computer.lastMoveHit ? computerSelectAfterHitAndMiss()
     : computer.lastMoveHit ? computerSelectAfterHit()
     : computerSelectAfterMiss()
     checkHit = playerPieces.indexOf(compChoice)
@@ -467,10 +430,9 @@ function startGame(){
     buildShips()
     compLives.textContent = computerPieces.length
    playerSetShips()
-   //if(playerPieces.length = 17){
-  // battleCommence()
-  console.log("the game is ready to start")
-   //}
+   if(playerPieces.length = 17){
+   battleCommence()
+   }
 }
 
 startButton.addEventListener("click", startGame)
