@@ -625,3 +625,54 @@ enemyGrid.forEach(grid => grid.addEventListener("click", test))
     }
     
     restartButton.addEventListener("click", restartGame)
+
+
+    // const playerShip1Form = document.querySelector("#user1Ship")
+    // const playerShipButton = document.querySelector("#playerShipButton")
+    // const playerShip2Form = document.querySelector("#user2Ship")
+
+
+//     const commitShip1 = () => {
+//         const playerShip = document.getElementById("player1Ship").value
+//         player.ship1 = playerShip.split(" ").map(i => parseFloat(i))
+//         let diff = player.ship1[0] - player.ship1[4]
+//         if(diff === 4 || diff === - 4 || diff === 32 || diff === -32){
+//         fillPlayerGrid(player.ship1)
+//         } else{
+//         player.ship1 = []
+//         window.alert("invalid ship placement. Please try again")
+//         playerSetShip1()
+//         }
+//     }
+
+//   function playerSetShip1(){  
+//     playerShip1Form.classList.remove("hidden")
+//     playerShipButton.addEventListener("click", commitShip1)
+// }
+
+// const commitShip2 = () => {
+//     const playerShip = document.getElementById("player2Ship").value
+//     player.ship2 = playerShip.split(" ").map(i => parseFloat(i))
+//     comparePlayerShips()
+//     if(playerPieces.length !== Array.from(testForPlayerDuplicates).length){
+//     player.ship2 = []
+//     window.alert("invalid ship placement. Please try again")
+//     playerSetShip2()
+//     }
+//     let diff = player.ship2[0] - player.ship2[3]
+//     if(diff === 3 || diff === -3 || diff === 24 || diff === -24){
+//     fillPlayerGrid(player.ship2)
+//     } else{
+//     player.ship2 = []
+//     window.alert("invalid ship placement. Please try again")
+//     playerSetShip2()
+//     }
+// }
+
+
+
+// function playerSetShip2(){
+//     playerShip1Form.classList.add("hidden")
+//     playerShip2Form.classList.remove("hidden")
+//     playerShipButton.addEventListener("click", commitShip2)
+// }
