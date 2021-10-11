@@ -676,3 +676,94 @@ enemyGrid.forEach(grid => grid.addEventListener("click", test))
 //     playerShip2Form.classList.remove("hidden")
 //     playerShipButton.addEventListener("click", commitShip2)
 // }
+
+// function collectData(){
+//     const input = document.getElementById("player-box").value
+//     player.ship1 = input.split(" ").map(i => parseFloat(i))
+//     console.log(player.ship1)
+//     let diff = player.ship1[0] - player.ship1[4]
+//     if(diff === 4 || diff === - 4 || diff === 32 || diff === -32){
+//     fillPlayerGrid(player.ship1)
+//     console.log("now move to second ship")
+//     } else {
+//     window.alert("invalid ship placement. Please try again")
+//     playerSetShip1()
+//         }
+// }
+
+
+
+
+  // function playerSetShip2(){
+    //     let playerShip = window.prompt("Please select your grid placement for your battleship (4 in length) e.g. 3 4 5 6")
+    //     player.ship2 = playerShip.split(" ").map(i => parseFloat(i))
+    //     comparePlayerShips()
+    //     let diff = player.ship2[0] - player.ship2[3]
+    //     if((diff === 3 || diff === -3 || diff === 24 || diff === - 24) && playerPieces.length === Array.from(testForPlayerDuplicates).length){
+    //         fillPlayerGrid(player.ship2)
+    //     } else {
+    //         window.alert("invalid ship placement. Please try again")
+    //         playerSetShip2()
+    //     }
+    // }
+
+    // function playerSetShip3(){
+    //     let playerShip = window.prompt("Please select your grid placement for your destroyer (3 in length) e.g. 42 43 44")
+    //     player.ship3 = playerShip.split(" ").map(i => parseFloat(i))
+    //     comparePlayerShips()
+    //     let diff = player.ship3[0] - player.ship3[2]
+    //     if((diff === 2 || diff === -2 || diff === 16 || diff === -16) && playerPieces.length === Array.from(testForPlayerDuplicates).length){
+    //         fillPlayerGrid(player.ship3)
+    //     } else {
+    //         window.alert("invalid ship placement. Please try again")
+    //         playerSetShip3()
+    //     }
+
+    // }
+
+    // function playerSetShip4(){
+    //     let playerShip = window.prompt("Please select your grid placement for your submarine (3 in length) e.g. 35 43 51")
+    //     player.ship4 = playerShip.split(" ").map(i => parseFloat(i))
+    //     comparePlayerShips()
+    //     let diff = player.ship4[0] - player.ship4[2]
+    //     if((diff === 2 || diff === -2 || diff === 16 || diff === -16) && playerPieces.length === Array.from(testForPlayerDuplicates).length){
+    //         fillPlayerGrid(player.ship4)
+    //     } else {
+    //         window.alert("invalid ship placement. Please try again")
+    //         playerSetShip4()
+    //     }
+    // }
+
+    // function playerSetShip5(){
+    //     let playerShip = window.prompt("Please select your grid placement for your patrol boat (2 in length) e.g. 7 15")
+    //     player.ship5 = playerShip.split(" ").map(i => parseFloat(i))
+    //     comparePlayerShips()
+    //     let diff = player.ship5[0] - player.ship5[1]
+    //     if((diff === 1 || diff === -1 || diff === 8 || diff === -8) && playerPieces.length === Array.from(testForPlayerDuplicates).length){
+    //         fillPlayerGrid(player.ship5)
+    //     } else {
+    //         window.alert("invalid ship placement. Please try again")
+    //         playerSetShip5()      
+    // }
+    // }
+
+       
+
+        
+        
+
+        
+
+    // function playerSetShip1(){  
+    //     playerShip = window.prompt("Please select your grid placement for your carrier (5 in length) e.g. 8 16 24 32 40")
+    //    // testShip(player.ship1, 4, playerSetShip1)
+    //    // console.log(playerPieces)
+    //     player.ship1 = playerShip.split(" ").map(i => parseFloat(i))
+    //     let diff = player.ship1[0] - player.ship1[4]
+    //     if(diff === 4 || diff === - 4 || diff === 32 || diff === -32){
+    //         fillPlayerGrid(player.ship1)
+    //     } else {
+    //         window.alert("invalid ship placement. Please try again")
+    //         playerSetShip1()
+    //     }
+    // }

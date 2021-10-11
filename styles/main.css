@@ -55,6 +55,12 @@ button:hover {
   margin: 0;
 }
 
+input {
+  background-color: black;
+  padding: 5px;
+  text-align: center;
+}
+
 #playable-area {
   display: flex;
   justify-content: space-evenly;
