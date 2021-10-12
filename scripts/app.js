@@ -20,6 +20,7 @@ const computer = {
     lastPick: 0,
     secondLastPick: 0,
     isTurn: true,
+    validShip: true,
 }
 
 const compGrid = [11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33, 34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 51, 52, 53, 54, 55, 56, 57, 58, 61, 62, 63, 64, 65, 66, 67, 68, 71, 72, 73, 74, 75, 76, 77, 78, 81, 82, 83, 84, 85, 86, 87, 88]
@@ -30,6 +31,9 @@ let testForPlayerDuplicates = null
 let compChoice = 0
 let checkHit = null
 let playerShip = null
+let computerShipGridLocation = null
+let increment1 = null
+let increment2 = null
 
 function establishFirstPartOfShip(arr){
     const shipPart1 = compGrid[Math.floor(Math.random() * compGrid.length)]
@@ -38,95 +42,78 @@ function establishFirstPartOfShip(arr){
     compGrid.splice(index, 1)
 }
 
-function createFourLongShip(arr){
-    const randomiser = Math.floor(Math.random() * 2)
-    const part1 = arr[0]
-    if(((part1 - 1) % 10 === 0 || (part1 - 2) % 10 === 0 || (part1 - 3) % 10 === 0) && arr[0] < 40){
-            (randomiser === 0) ? arr.push(arr[0] + 10, arr[0] + 20, arr[0] + 30) : arr.push(arr[0] + 1, arr[0] + 2, arr[0] + 3)
-        } else if(arr[0] < 40){
-            (randomiser === 0) ? arr.push(arr[0] + 10, arr[0] + 20, arr[0] + 30) : arr.push(arr[0] - 1, arr[0] - 2, arr[0] - 3)
-        } else if(((part1 - 1) % 10 === 0 || (part1 - 2) % 10 === 0 || (part1 - 3) % 10 === 0) && arr[0] > 40){
-            (randomiser === 0) ? arr.push(arr[0] - 10, arr[0] - 20, arr[0] - 30) : arr.push(arr[0] + 1, arr[0] + 2, arr[0] + 3)
-        } else if(arr[0] > 40){
-            (randomiser === 0) ? arr.push(arr[0] - 10, arr[0] - 20, arr[0] - 30) : arr.push(arr[0] - 1, arr[0] - 2, arr[0] - 3)      
-            } 
-        }
-
-    function createFiveLongShip(arr){
-        const randomiser = Math.floor(Math.random() * 2)
-    if(((arr[0] - 1) % 10 === 0 || (arr[0] - 2) % 10 === 0 || (arr[0] - 3) % 10 === 0 || (arr[0] - 4) % 10 === 0) && arr[0] < 50){
-            (randomiser === 0) ? arr.push(arr[0] + 10, arr[0] + 20, arr[0] + 30, arr[0] + 40) : arr.push(arr[0] + 1, arr[0] + 2, arr[0] + 3, arr[0] + 4)
-        } else if(arr[0] < 50){
-            (randomiser === 0) ? arr.push(arr[0] + 10, arr[0] + 20, arr[0] + 30, arr[0] + 40) : arr.push(arr[0] - 1, arr[0] - 2, arr[0] - 3, arr[0] - 4)
-        } else if(((arr[0] - 1) % 10 === 0 || (arr[0] - 2) % 10 === 0 || (arr[0] - 3) % 10 === 0 || (arr[0] - 4) % 10 === 0) && arr[0] > 50){
-            (randomiser === 0) ? arr.push(arr[0] - 10, arr[0] - 20, arr[0] - 30, arr[0] - 40) : arr.push(arr[0] + 1, arr[0] + 2, arr[0] + 3, arr[0] + 4)
-        } else if(arr[0] > 50){
-            (randomiser === 0) ? arr.push(arr[0] - 10, arr[0] - 20, arr[0] - 30, arr[0] - 40) : arr.push(arr[0] - 1, arr[0] - 2, arr[0] - 3, arr[0] - 4)      
-            } 
+function createRestOfShip(arr, x){
+    const randomiser = Math.floor(Math.random()*2)
+    const incrementChoice = randomiser === 1 ? increment1 : increment2
+    for(let i = 0; i < x; i++){
+        arr.push(arr[i] + incrementChoice)
     }
+}
+
+function locateOnGrid(arr){
+    if(arr[0] % 10 <= 4 && arr[0] < 50){
+        increment1 = 1
+        increment2 = 10
+    } else if(arr[0] % 10 <= 4 && arr[0] > 50){
+        increment1 = 1
+        increment2 = -10
+    } else if(arr[0] < 50){
+        increment1 = -1
+        increment2 = 10
+    } else{
+        increment1 = -1
+        increment2 = -10
+    }
+}
+
+function compareShips() {
+    computerPieces = computer.ship1.concat(computer.ship2).concat(computer.ship3).concat(computer.ship4).concat(computer.ship5)
+    testForDuplicates = new Set(computerPieces)
+     return computerPieces.length === Array.from(testForDuplicates).length
+}
+
+function computerShipBuilder(x){
+    const newShip = []
+    establishFirstPartOfShip(newShip)
+    locateOnGrid(newShip)
+    createRestOfShip(newShip, x)
+    return newShip
+}
 
 function computerShip1(){
-    establishFirstPartOfShip(computer.ship1)
-    createFiveLongShip(computer.ship1)
-    console.log(computer.ship1)
+    computer.ship1 = computerShipBuilder(4)
 }
 
 function computerShip2(){
-    computer.ship2 = []
-    establishFirstPartOfShip(computer.ship2)
-    createFourLongShip(computer.ship2)
-    console.log(computer.ship2)
+    computer.ship2 = computerShipBuilder(3)
     compareShips()
-   let check = (computerPieces.length !== Array.from(testForDuplicates).length) ? computerShip2() : null
+    if(!compareShips()){
+        computerShip2()
+    }
 }
 
-function createThreeLongShip(arr){
-    const randomiser = Math.floor(Math.random() * 2)
-    const part1 = arr[0]
-    if(((part1 - 1) % 10 === 0 || (part1 - 2) % 10 === 0 || (part1 - 3) % 10 === 0) && arr[0] < 40){
-            (randomiser === 0) ? arr.push(arr[0] + 10, arr[0] + 20) : arr.push(arr[0] + 1, arr[0] + 2)
-        } else if(arr[0] < 40){
-            (randomiser === 0) ? arr.push(arr[0] + 10, arr[0] + 20) : arr.push(arr[0] - 1, arr[0] - 2)
-        } else if(((part1 - 1) % 10 === 0 || (part1 - 2) % 10 === 0 || (part1 - 3) % 10 === 0) && arr[0] > 40){
-            (randomiser === 0) ? arr.push(arr[0] - 10, arr[0] - 20) : arr.push(arr[0] + 1, arr[0] + 2)
-        } else if(arr[0] > 40){
-            (randomiser === 0) ? arr.push(arr[0] - 10, arr[0] - 20) : arr.push(arr[0] - 1, arr[0] - 2)      
-            } 
-        }
-
 function computerShip3(){
-    computer.ship3 = []
-    establishFirstPartOfShip(computer.ship3)
-    createThreeLongShip(computer.ship3)
-    console.log(computer.ship3)
+    computer.ship3 = computerShipBuilder(2)
     compareShips()
-    let check = (computerPieces.length !== Array.from(testForDuplicates).length) ? computerShip3() : null
+    if(!compareShips()){
+        computerShip3()
+    }
 }
 
 function computerShip4(){
-    computer.ship4 = []
-    establishFirstPartOfShip(computer.ship4)
-    createThreeLongShip(computer.ship4)
-    console.log(computer.ship4)
+    computer.ship4 = computerShipBuilder(2)
     compareShips()
-    let check = (computerPieces.length !== Array.from(testForDuplicates).length) ? computerShip4() : null
-}
-
-function createTwoLongShip(arr){
-    const nextAvailablePart = compGrid.filter(i => i === arr[0] + 1 || i === arr[0] - 1 || i === arr[0] + 10 || i === arr[0] - 10)
-    const shipPart2 = nextAvailablePart[Math.floor(Math.random() * nextAvailablePart.length)]
-    const index2 = compGrid.indexOf(shipPart2)
-    compGrid.splice(index2, 1)
-    arr.push(shipPart2)
+    if(!compareShips()){
+        computerShip4()
+    }
 }
 
 function computerShip5(){
-    computer.ship5 = []
-    establishFirstPartOfShip(computer.ship5)
-    createTwoLongShip(computer.ship5)
-   console.log(computer.ship5)
+    computer.ship5 = computerShipBuilder(1)
     compareShips()
-    let check = (computerPieces.length !== Array.from(testForDuplicates).length) ? computerShip5() : null
+    if(!compareShips()){
+        computerShip5()
+    }
 }
 
 function buildShips(){
@@ -146,11 +133,6 @@ function clearComputerShips(){
     computer.ship5 = []
 }
 
-function compareShips(){
-    computerPieces = computer.ship1.concat(computer.ship2).concat(computer.ship3).concat(computer.ship4).concat(computer.ship5)
-    testForDuplicates = new Set(computerPieces)
-}
- 
     const enemyGrid = document.querySelectorAll(".comp-grid")
     const playerGrid = document.querySelectorAll(".player-grid")
     //const playerValues = playerGrid.getAttribute("value")
@@ -357,8 +339,7 @@ const computerHit = () => {
    // playerGrid[compChoice].classList.add("player-hit")
    playerGrid[compChoice].innerHTML ='<i class="fas fa-burn"></i>'
     playerLives.textContent = playerPieces.length
-    const lastMoveHitShuffle = computer.lastMoveHit ? computer.secondLastMoveHit = true : computer.secondLastMoveHit = false
-    computer.lastMoveHit = true
+    computer.secondLastPick = computer.lastMoveHit
    // computer.lastPick = compChoice
     messageScreen.textContent = "They have hit one of our ships! Make them pay!"
 }
@@ -400,22 +381,28 @@ const reassignPicks = () =>{
     computer.lastPick = compChoice
 }
 
+function computerChoosePick(){
+    if(computer.lastMoveHit && computer.secondLastMoveHit){
+        computerSelectAfter2Hits()
+    } else if(computer.secondLastMoveHit && !computer.lastMoveHit){
+        computerSelectAfterHitAndMiss()
+    } else if(computer.lastMoveHit){
+        computerSelectAfterHit()
+    } else{
+        computerSelectAfterMiss()
+}
+}
+
 function computerTurn(){
     if(computer.isTurn){
-    reassignPicks()    
-    computer.lastMoveHit && computer.secondLastMoveHit ? computerSelectAfter2Hits()
-    : computer.secondLastMoveHit && !computer.lastMoveHit ? computerSelectAfterHitAndMiss()
-    : computer.lastMoveHit ? computerSelectAfterHit()
-    : computerSelectAfterMiss()
+    reassignPicks()
+    computerChoosePick()    
     checkHit = playerPieces.indexOf(compChoice)
-    console.log(computer.secondLastPick)
-    console.log(computer.lastPick)
-    console.log(compChoice)
     if(checkHit >= 0){
         computerHit()
     } else {
         playerGrid[compChoice].classList.add("player-miss")
-        const lastMoveHitShuffle = computer.lastMoveHit ? computer.secondLastMoveHit = true : computer.secondLastMoveHit = false
+        computer.secondLastMoveHit = computer.lastMoveHit
         computer.lastMoveHit = false
         messageScreen.textContent = "Luckily their shot missed our ships. Strike now while we still can!"
     }
@@ -438,7 +425,7 @@ function startGame(){
     setUpBoard()
     buildShips()
     compLives.textContent = computerPieces.length
-   playerSetShips()
+    playerSetShips()
 }
 
 startButton.addEventListener("click", startGame)
