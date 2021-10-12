@@ -86,7 +86,6 @@ function computerShip1(){
 
 function computerShip2(){
     computer.ship2 = computerShipBuilder(3)
-    compareShips()
     if(!compareShips()){
         computerShip2()
     }
@@ -94,7 +93,6 @@ function computerShip2(){
 
 function computerShip3(){
     computer.ship3 = computerShipBuilder(2)
-    compareShips()
     if(!compareShips()){
         computerShip3()
     }
@@ -102,7 +100,6 @@ function computerShip3(){
 
 function computerShip4(){
     computer.ship4 = computerShipBuilder(2)
-    compareShips()
     if(!compareShips()){
         computerShip4()
     }
@@ -110,7 +107,6 @@ function computerShip4(){
 
 function computerShip5(){
     computer.ship5 = computerShipBuilder(1)
-    compareShips()
     if(!compareShips()){
         computerShip5()
     }
@@ -164,95 +160,275 @@ function clearComputerShips(){
     function comparePlayerShips(){
         playerPieces = player.ship1.concat(player.ship2).concat(player.ship3).concat(player.ship4).concat(player.ship5)
         testForPlayerDuplicates = new Set(playerPieces)
+        return playerPieces.length === Array.from(testForPlayerDuplicates).length
     }
 
-function collectDataFor1(){
-    playerShip = document.getElementById("player-box").value
-    testShip(player.ship1, 4)
-    player.validShip ? playerSetShip2() : playerSetShip1()
+// function collectDataFor1(){
+//     playerShip = document.getElementById("player-box").value
+//     testShip(player.ship1, 4)
+//     player.validShip ? playerSetShip2() : playerSetShip1()
+//     }
+
+    // const playerSetShip1 = function (){
+    //     player.ship1 = []  
+    //     messageScreen.textContent = "Please select your grid placement for your carrier (5 in length) e.g. 8 16 24 32 40"
+    //     inputValue.classList.remove("hidden")
+    //     submitButton.classList.remove("hidden")
+    //     submitButton.addEventListener("click", collectDataFor1)
+    //    }
+
+    function collectDataFor1(){
+        playerShip = document.getElementById("player-box").value
+        let playerShipStart = parseFloat(playerShip)
+        let playerDirection = playerShip.toLowerCase().split("")
+        if(playerDirection.includes("h") && playerShipStart % 8 < 4){
+            player.ship1.push(playerShipStart, playerShipStart + 1, playerShipStart + 2, playerShipStart + 3, playerShipStart + 4)
+            fillPlayerGrid(player.ship1)
+            playerSetShip2()
+        } else if (playerDirection.includes("v") && playerShipStart < 32){
+            player.ship1.push(playerShipStart, playerShipStart + 8, playerShipStart + 16, playerShipStart + 24, playerShipStart + 32)
+            fillPlayerGrid(player.ship1)
+            playerSetShip2()
+        } else{
+            window.alert("invalid entry. Please try again")
+        }
     }
 
-    const playerSetShip1 = function (){
-        player.ship1 = []  
-        messageScreen.textContent = "Please select your grid placement for your carrier (5 in length) e.g. 8 16 24 32 40"
+    function playerSetShip1(){
+        messageScreen.textContent = "Please select your starting square for your carrier (5 in length), followed by a 'h' for horizontal, or a 'v' for vertical - e.g. 24 h"
         inputValue.classList.remove("hidden")
         submitButton.classList.remove("hidden")
         submitButton.addEventListener("click", collectDataFor1)
-       }
+    }
 
-    function testShip(arr, x){  
-        playerShip.split(" ").map(i => arr.push(parseFloat(i)))
-        comparePlayerShips()
-        let diff = arr[0] - arr[x]
-        if((diff === x || diff === -x || diff === (x * 8) || diff === (x * -8)) && playerPieces.length === Array.from(testForPlayerDuplicates).length){
-            fillPlayerGrid(arr)
-            player.validShip = true
-        } else {
-            window.alert("invalid ship placement. Please try again")
-            player.validShip = false
-        }
-    }    
+
+
+    // function testStraightLine(arr){
+    //     let i = 0
+    //     let sum = 0
+    //     for(x = 0; x < arr.length; x++){
+    //         sum += (arr[x] - i)
+    //         i = arr[x]
+    //     }
+    //     return sum
+    // }
+
+    // function testShip(arr, x){  
+    //     playerShip.split(" ").map(i => arr.push(parseFloat(i)))
+    //     comparePlayerShips()   
+    //     let diff = testStraightLine(arr)
+    //     console.log(diff)
+    //     if((diff === -1 || diff === -5 || diff === -40 || diff === -8) && playerPieces.length === Array.from(testForPlayerDuplicates).length){
+    //         fillPlayerGrid(arr)
+    //         player.validShip = true
+    //     } else {
+    //         window.alert("invalid ship placement. Please try again")
+    //         player.validShip = false
+    //     }
+    // }    
 
     function collectDataFor2(){
         playerShip = document.getElementById("player-box").value
-        console.log(playerShip)
-        testShip(player.ship2, 3)
-        player.validShip ? playerSetShip3() : playerSetShip2()
+        let playerShipStart = parseFloat(playerShip)
+        let playerDirection = playerShip.toLowerCase().split("")
+        if(playerDirection.includes("h") && playerShipStart % 8 < 5){
+            player.ship2.push(playerShipStart, playerShipStart + 1, playerShipStart + 2, playerShipStart + 3)
+            if(comparePlayerShips()){
+                fillPlayerGrid(player.ship2)
+                playerSetShip3()
+            } else{
+                window.alert("Overlapping ship. Please try again")
+                player.ship2 = []
+            }
+
+        } else if (playerDirection.includes("v") && playerShipStart < 40){
+            player.ship2.push(playerShipStart, playerShipStart + 8, playerShipStart + 16, playerShipStart + 24)
+            if(comparePlayerShips()){
+                fillPlayerGrid(player.ship2)
+                playerSetShip3()
+            } else{
+                window.alert("Overlapping ship. Please try again")
+                player.ship2 = []
+            }
+        } else{
+            window.alert("invalid entry. Please try again")
+        }
         }
   
     function playerSetShip2(){
-        player.ship2 = []
-        messageScreen.textContent = "Please select your grid placement for your battleship (4 in length) e.g. 3 4 5 6"
+        messageScreen.textContent = "Please select your starting square for your battleship (4 in length), followed by a 'h' for horizontal, or a 'v' for vertical - e.g. 36 v"
         submitButton2.addEventListener("click", collectDataFor2)
         submitButton.classList.add("hidden")
         submitButton2.classList.remove("hidden")
     }
 
+
+
+    // function collectDataFor2(){
+    //     playerShip = document.getElementById("player-box").value
+    //     console.log(playerShip)
+    //     testShip(player.ship2, 3)
+    //     player.validShip ? playerSetShip3() : playerSetShip2()
+    //     }
+  
+    // function playerSetShip2(){
+    //     player.ship2 = []
+    //     messageScreen.textContent = "Please select your grid placement for your battleship (4 in length) e.g. 3 4 5 6"
+    //     submitButton2.addEventListener("click", collectDataFor2)
+    //     submitButton.classList.add("hidden")
+    //     submitButton2.classList.remove("hidden")
+    // }
+
     function collectDataFor3(){
         playerShip = document.getElementById("player-box").value
-        console.log(playerShip)
-        testShip(player.ship3, 2)
-        player.validShip ? playerSetShip4() : playerSetShip3()
+        let playerShipStart = parseFloat(playerShip)
+        let playerDirection = playerShip.toLowerCase().split("")
+        if(playerDirection.includes("h") && playerShipStart % 8 < 6){
+            player.ship3.push(playerShipStart, playerShipStart + 1, playerShipStart + 2)
+            if(comparePlayerShips()){
+                fillPlayerGrid(player.ship3)
+                playerSetShip4()
+            } else{
+                window.alert("Overlapping ship. Please try again")
+                player.ship3 = []
+            }
+
+        } else if (playerDirection.includes("v") && playerShipStart < 48){
+            player.ship3.push(playerShipStart, playerShipStart + 8, playerShipStart + 16)
+            if(comparePlayerShips()){
+                fillPlayerGrid(player.ship3)
+                playerSetShip4()
+            } else{
+                window.alert("Overlapping ship. Please try again")
+                player.ship3 = []
+            }
+        } else{
+            window.alert("invalid entry. Please try again")
+        }
     }
 
     function playerSetShip3(){
-        player.ship3 = []
-        messageScreen.textContent = "Please select your grid placement for your destroyer (3 in length) e.g. 42 43 44"
+        messageScreen.textContent = "Please select your starting square for your destroyer (3 in length), followed by a 'h' for horizontal, or a 'v' for vertical - e.g. 56 h"
         submitButton2.classList.add("hidden")
         submitButton3.classList.remove("hidden")
         submitButton3.addEventListener("click", collectDataFor3)
     }
 
+    // function collectDataFor3(){
+    //     playerShip = document.getElementById("player-box").value
+    //     console.log(playerShip)
+    //     testShip(player.ship3, 2)
+    //     player.validShip ? playerSetShip4() : playerSetShip3()
+    // }
+
+    // function playerSetShip3(){
+    //     player.ship3 = []
+    //     messageScreen.textContent = "Please select your grid placement for your destroyer (3 in length) e.g. 42 43 44"
+    //     submitButton2.classList.add("hidden")
+    //     submitButton3.classList.remove("hidden")
+    //     submitButton3.addEventListener("click", collectDataFor3)
+    // }
+
     function collectDataFor4(){
         playerShip = document.getElementById("player-box").value
-        console.log(playerShip)
-        testShip(player.ship4, 2)
-        player.validShip ? playerSetShip5() : playerSetShip4()
+        let playerShipStart = parseFloat(playerShip)
+        let playerDirection = playerShip.toLowerCase().split("")
+        if(playerDirection.includes("h") && playerShipStart % 8 < 6){
+            player.ship4.push(playerShipStart, playerShipStart + 1, playerShipStart + 2)
+            if(comparePlayerShips()){
+                fillPlayerGrid(player.ship4)
+                playerSetShip5()
+            } else{
+                window.alert("Overlapping ship. Please try again")
+                player.ship4 = []
+            }
+
+        } else if (playerDirection.includes("v") && playerShipStart < 48){
+            player.ship4.push(playerShipStart, playerShipStart + 8, playerShipStart + 16)
+            if(comparePlayerShips()){
+                fillPlayerGrid(player.ship4)
+                playerSetShip5()
+            } else{
+                window.alert("Overlapping ship. Please try again")
+                player.ship4 = []
+            }
+        } else{
+            window.alert("invalid entry. Please try again")
+        }
     }
 
     function playerSetShip4(){
-        player.ship4 = []
-        messageScreen.textContent = "Please select your grid placement for your submarine (3 in length) e.g. 35 43 51"
+        messageScreen.textContent = "Please select your starting square for your submarine (3 in length), followed by a 'h' for horizontal, or a 'v' for vertical - e.g. 45 v"
         submitButton3.classList.add("hidden")
         submitButton4.classList.remove("hidden")
         submitButton4.addEventListener("click", collectDataFor4)
     }
 
+    // function collectDataFor4(){
+    //     playerShip = document.getElementById("player-box").value
+    //     console.log(playerShip)
+    //     testShip(player.ship4, 2)
+    //     player.validShip ? playerSetShip5() : playerSetShip4()
+    // }
+
+    // function playerSetShip4(){
+    //     player.ship4 = []
+    //     messageScreen.textContent = "Please select your grid placement for your submarine (3 in length) e.g. 35 43 51"
+    //     submitButton3.classList.add("hidden")
+    //     submitButton4.classList.remove("hidden")
+    //     submitButton4.addEventListener("click", collectDataFor4)
+    // }
+
     function collectDataFor5(){
         playerShip = document.getElementById("player-box").value
-        console.log(playerShip)
-        testShip(player.ship5, 1)
-        console.log("final test has been completed")
-        player.validShip ? battleCommence() : playerSetShip5()
+        let playerShipStart = parseFloat(playerShip)
+        let playerDirection = playerShip.toLowerCase().split("")
+        if(playerDirection.includes("h") && playerShipStart % 8 < 7){
+            player.ship5.push(playerShipStart, playerShipStart + 1)
+            if(comparePlayerShips()){
+                fillPlayerGrid(player.ship5)
+                battleCommence()
+            } else{
+                window.alert("Overlapping ship. Please try again")
+                player.ship5 = []
+            }
+
+        } else if (playerDirection.includes("v") && playerShipStart < 56){
+            player.ship5.push(playerShipStart, playerShipStart + 8)
+            if(comparePlayerShips()){
+                fillPlayerGrid(player.ship5)
+                battleCommence()
+            } else{
+                window.alert("Overlapping ship. Please try again")
+                player.ship5 = []
+            }
+        } else{
+            window.alert("invalid entry. Please try again")
+        }
     }
 
     function playerSetShip5(){
-        player.ship5 = []
-        messageScreen.textContent = "Please select your grid placement for your patrol boat (2 in length) e.g. 7 15"
+        messageScreen.textContent = "Please select your starting square for your patrol boat (2 in length), followed by a 'h' for horizontal, or a 'v' for vertical - e.g. 45 v"
         submitButton4.classList.add("hidden")
         submitButton5.classList.remove("hidden")
         submitButton5.addEventListener("click", collectDataFor5)
     }
+
+    // function collectDataFor5(){
+    //     playerShip = document.getElementById("player-box").value
+    //     console.log(playerShip)
+    //     testShip(player.ship5, 1)
+    //     console.log("final test has been completed")
+    //     player.validShip ? battleCommence() : playerSetShip5()
+    // }
+
+    // function playerSetShip5(){
+    //     player.ship5 = []
+    //     messageScreen.textContent = "Please select your grid placement for your patrol boat (2 in length) e.g. 7 15"
+    //     submitButton4.classList.add("hidden")
+    //     submitButton5.classList.remove("hidden")
+    //     submitButton5.addEventListener("click", collectDataFor5)
+    // }
 
     function playerSetShips(){
         playerNumbers.forEach(i => i.classList.remove("hidden"))
@@ -302,7 +478,7 @@ function checkHealth(){
       event.target.classList.add("miss")
     }
     checkHealth()
-    let continueCheck = (playerPieces.length > 0 && computerPieces.length > 0) ? computerTurn() : endGame()
+    let check = (playerPieces.length > 0 && computerPieces.length > 0) ? computerTurn() : endGame()
     }
     }
 
@@ -340,6 +516,7 @@ const computerHit = () => {
    playerGrid[compChoice].innerHTML ='<i class="fas fa-burn"></i>'
     playerLives.textContent = playerPieces.length
     computer.secondLastPick = computer.lastMoveHit
+    computer.lastMoveHit = true
    // computer.lastPick = compChoice
     messageScreen.textContent = "They have hit one of our ships! Make them pay!"
 }
@@ -451,6 +628,7 @@ function restartGame(){
     computer.secondLastMoveHit = false
     computer.lastPick = 0
     availableMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]
+    playerNumbers.forEach(i => i.classList.remove("hidden"))
     startGame()
 }
 
