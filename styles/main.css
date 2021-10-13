@@ -19,7 +19,7 @@ h1 {
   font-size: 70px;
   margin: 0;
   padding-top: 10px;
-  border-bottom: 1px solid rgb(43, 255, 0);
+  border-bottom: 1px solid rgb(30, 157, 5);
   width: 350px;
 }
 
@@ -78,11 +78,12 @@ input {
 
 #player-map,
 #comp-map {
-  width: 500px;
+  width: 498px;
   /* background-color: rgb(94, 94, 94); */
   background-image: url("../assets/screen2.png");
+  background-position-x: center;
   background-size: cover;
-  height: 500px;
+  height: 498px;
   display: flex;
   flex-wrap: wrap;
   padding: 5px;
@@ -166,12 +167,17 @@ input {
 
 .player-hit {
   background-color: rgba(0, 0, 0, 0);
-  background-image: url("../assets/lava-floor.gif");
+  background-image: url("../assets/static-glitch.gif");
   background-size: contain;
 }
 
 .player-miss {
   background-image: url("../assets/1200px-Cross_green_icon.svg.png");
+  background-size: contain;
+}
+
+.player-loss {
+  background-image: url("../assets/static-glitch.gif");
   background-size: contain;
 }
 

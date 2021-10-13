@@ -172,20 +172,20 @@ function clearComputerShips(){
         playerDirection = playerShip.toLowerCase().split("")
     }
 
-function playerShipBuilder(arr, x){
-    let playerIncrement = 0
-    if(playerDirection.includes("h")){
-        playerIncrement = 1
-    } else if(playerDirection.includes("v")){
-        playerIncrement = 8
-    } 
-    arr.push(playerShipStart)
-    let lastShipPart = playerShipStart
-    for(let i = 0; i < x; i++){
-    arr.push(lastShipPart + playerIncrement)
-    lastShipPart += playerIncrement  
+    function playerShipBuilder(arr, x){
+        let playerIncrement = 0
+        if(playerDirection.includes("h")){
+         playerIncrement = 1
+        } else if(playerDirection.includes("v")){
+         playerIncrement = 8
+        } 
+        arr.push(playerShipStart)
+        let lastShipPart = playerShipStart
+        for(let i = 0; i < x; i++){
+        arr.push(lastShipPart + playerIncrement)
+        lastShipPart += playerIncrement  
+        }
     }
-}
 
     function buildPlayerShip1(){
         collectPlayerData()
@@ -281,7 +281,7 @@ function playerShipBuilder(arr, x){
             window.alert("invalid entry. Please try again")
             player.ship5 = []
             playerSetShip5()
-        }}2
+        }}
 
     function playerSetShip5(){
         messageScreen.textContent = "Please select your starting square for your patrol boat (2 in length), followed by a 'h' for horizontal, or a 'v' for vertical - e.g. 45 v"
@@ -292,7 +292,6 @@ function playerShipBuilder(arr, x){
 
     function playerSetShips(){
         playerNumbers.forEach(number => number.classList.remove("hidden"))
-        console.log("numbers appear")
         playerSetShip1()
     }
 
@@ -334,6 +333,9 @@ function checkHealth(){
             enemyGrid.forEach(grid => grid.classList.add("danger"))
         }
         if(playerPieces.length <= 0){
+            playerGrid.forEach(cell => cell.classList.remove("grid-on"))
+            playerGrid.forEach(cell => cell.classList.remove("danger"))
+            playerGrid.forEach(cell => cell.classList.add("player-loss"))
             messageScreen.textContent = "You have been defeated"
         } else if (playerPieces.length <= 5){
             playerGrid.forEach(grid => grid.classList.add("danger"))
@@ -466,13 +468,10 @@ function computerTurn(){
         playerTurn()
     } else {
         endGame()
-    }
-   }
-}
+    } } }
 
 function battleCommence(){   
     playerNumbers.forEach(number => number.classList.add("hidden"))
-    console.log("numbers going")
     shipLengthSection.classList.remove("hidden")
     playerLives.textContent = playerPieces.length
     inputValue.classList.add("hidden")
@@ -500,7 +499,7 @@ function clearPlayerShips(){
 }
 
 const resetClasses = () => {
-    playerGrid.forEach(grid => grid.classList.remove("player-ship", "player-miss", "player-hit", "danger"))
+    playerGrid.forEach(grid => grid.classList.remove("player-ship", "player-miss", "player-hit", "danger", "player-loss"))
     enemyGrid.forEach(grid => grid.classList.remove("hit", "miss", "danger"))
     restartButton.classList.add("hidden")
 }
@@ -527,7 +526,6 @@ function restartGame(){
     resetClasses()
     resetTurns()
     playerNumbers.forEach(i => i.classList.remove("hidden"))
-    console.log("numbers appearing")
     stopMusic()
     startGame()
 }
