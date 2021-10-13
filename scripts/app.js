@@ -132,7 +132,6 @@ function clearComputerShips(){
 
     const enemyGrid = document.querySelectorAll(".comp-grid")
     const playerGrid = document.querySelectorAll(".player-grid")
-    //const playerValues = playerGrid.getAttribute("value")
     const messageScreen = document.querySelector("#message")
     const startButton = document.querySelector("#start-button")
     const restartButton = document.querySelector("#restart-button")
@@ -149,11 +148,14 @@ function clearComputerShips(){
     const submitButton3 = document.querySelector("#submit-button-3")
     const submitButton4 = document.querySelector("#submit-button-4")
     const submitButton5 = document.querySelector("#submit-button-5")
+    const backgroundMusic = document.getElementById("background-music")
+    const victoryMusic = document.getElementById("victory-music")
+    const defeatMusic = document.getElementById("defeat-music")
 
     function fillPlayerGrid(arr){  
         for(let i = 0; i < arr.length; i++){
                 playerGrid[arr[i]].classList.add("player-ship")
-                playerGrid[arr[i]].textContent = ""
+                playerNumbers[arr[i]].classList.add("hidden")
             }      
          return       
          }
@@ -169,7 +171,6 @@ function clearComputerShips(){
         playerShipStart = parseFloat(playerShip)
         playerDirection = playerShip.toLowerCase().split("")
     }
-
 
 function playerShipBuilder(arr, x){
     let playerIncrement = 0
@@ -204,9 +205,6 @@ function playerShipBuilder(arr, x){
         submitButton.addEventListener("click", buildPlayerShip1)
     }
   
-
-
-
     function buildPlayerShip2(){
         collectPlayerData()
         if((playerDirection.includes("h") && playerShipStart % 8 < 5) || (playerDirection.includes("v") && playerShipStart < 40)){
@@ -228,21 +226,6 @@ function playerShipBuilder(arr, x){
         submitButton2.classList.remove("hidden")
     }
 
-    // function collectDataFor2(){
-    //     playerShip = document.getElementById("player-box").value
-    //     console.log(playerShip)
-    //     testShip(player.ship2, 3)
-    //     player.validShip ? playerSetShip3() : playerSetShip2()
-    //     }
-  
-    // function playerSetShip2(){
-    //     player.ship2 = []
-    //     messageScreen.textContent = "Please select your grid placement for your battleship (4 in length) e.g. 3 4 5 6"
-    //     submitButton2.addEventListener("click", collectDataFor2)
-    //     submitButton.classList.add("hidden")
-    //     submitButton2.classList.remove("hidden")
-    // }
-
     function buildPlayerShip3(){
         collectPlayerData()
         if((playerDirection.includes("h") && playerShipStart % 8 < 6) || (playerDirection.includes("v") && playerShipStart < 48)){
@@ -263,21 +246,6 @@ function playerShipBuilder(arr, x){
         submitButton3.classList.remove("hidden")
         submitButton3.addEventListener("click", buildPlayerShip3)
     }
-
-    // function collectDataFor3(){
-    //     playerShip = document.getElementById("player-box").value
-    //     console.log(playerShip)
-    //     testShip(player.ship3, 2)
-    //     player.validShip ? playerSetShip4() : playerSetShip3()
-    // }
-
-    // function playerSetShip3(){
-    //     player.ship3 = []
-    //     messageScreen.textContent = "Please select your grid placement for your destroyer (3 in length) e.g. 42 43 44"
-    //     submitButton2.classList.add("hidden")
-    //     submitButton3.classList.remove("hidden")
-    //     submitButton3.addEventListener("click", collectDataFor3)
-    // }
 
     function buildPlayerShip4(){
         collectPlayerData()
@@ -301,21 +269,6 @@ function playerShipBuilder(arr, x){
         submitButton4.addEventListener("click", buildPlayerShip4)
     }
 
-    // function collectDataFor4(){
-    //     playerShip = document.getElementById("player-box").value
-    //     console.log(playerShip)
-    //     testShip(player.ship4, 2)
-    //     player.validShip ? playerSetShip5() : playerSetShip4()
-    // }
-
-    // function playerSetShip4(){
-    //     player.ship4 = []
-    //     messageScreen.textContent = "Please select your grid placement for your submarine (3 in length) e.g. 35 43 51"
-    //     submitButton3.classList.add("hidden")
-    //     submitButton4.classList.remove("hidden")
-    //     submitButton4.addEventListener("click", collectDataFor4)
-    // }
-
     function buildPlayerShip5(){
         collectPlayerData()
         if((playerDirection.includes("h") && playerShipStart % 8 < 7) || (playerDirection.includes("v") && playerShipStart < 56)){
@@ -328,7 +281,7 @@ function playerShipBuilder(arr, x){
             window.alert("invalid entry. Please try again")
             player.ship5 = []
             playerSetShip5()
-        }}
+        }}2
 
     function playerSetShip5(){
         messageScreen.textContent = "Please select your starting square for your patrol boat (2 in length), followed by a 'h' for horizontal, or a 'v' for vertical - e.g. 45 v"
@@ -337,24 +290,9 @@ function playerShipBuilder(arr, x){
         submitButton5.addEventListener("click", buildPlayerShip5)
     }
 
-    // function collectDataFor5(){
-    //     playerShip = document.getElementById("player-box").value
-    //     console.log(playerShip)
-    //     testShip(player.ship5, 1)
-    //     console.log("final test has been completed")
-    //     player.validShip ? battleCommence() : playerSetShip5()
-    // }
-
-    // function playerSetShip5(){
-    //     player.ship5 = []
-    //     messageScreen.textContent = "Please select your grid placement for your patrol boat (2 in length) e.g. 7 15"
-    //     submitButton4.classList.add("hidden")
-    //     submitButton5.classList.remove("hidden")
-    //     submitButton5.addEventListener("click", collectDataFor5)
-    // }
-
     function playerSetShips(){
-        playerNumbers.forEach(i => i.classList.remove("hidden"))
+        playerNumbers.forEach(number => number.classList.remove("hidden"))
+        console.log("numbers appear")
         playerSetShip1()
     }
 
@@ -366,8 +304,19 @@ function playerShipBuilder(arr, x){
         compStats.classList.remove("hidden")
     }
 
+function changeMusic(){
+    backgroundMusic.pause()
+    backgroundMusic.currentTime = 0
+    if(playerPieces.length <= 0){
+        defeatMusic.play()
+    } else if(computerPieces.length <= 0){
+        victoryMusic.play()
+    }
+}
+
 function endGame(){
-    console.log("the game is over")
+    changeMusic()
+    buildShips
     player.isTurn = false
     computer.isTurn = false
     shipLengthSection.classList.add("hidden")
@@ -408,9 +357,7 @@ function checkHealth(){
         computerTurn()
     } else {
         endGame()
-    }
-    }
-    }
+    } } }
 
     function playerTurn(){
     enemyGrid.forEach(grid => grid.addEventListener("click", playerFire))
@@ -437,10 +384,6 @@ function computerSelectAfterHit(){
     const index = availableMoves.indexOf(compChoice)
     availableMoves.splice(index, 1)
 }
-
-   
-
-
 
 const computerSelectAfterHitAndMiss = () => {
     let nextMoveChoices = []
@@ -494,20 +437,18 @@ function computerChoosePick(){
 const computerHit = () => {
     //audio.play()
     playerPieces.splice(checkHit, 1)
-   // playerGrid[compChoice].classList.add("player-hit")
-   playerGrid[compChoice].innerHTML ='<i class="fas fa-burn"></i>'
+    playerGrid[compChoice].classList.add("player-hit")
     playerLives.textContent = playerPieces.length
     computer.secondLastPick = computer.lastMoveHit
     computer.lastMoveHit = true
-   // computer.lastPick = compChoice
     messageScreen.textContent = "They have hit one of our ships! Make them pay!"
 }
 
 const computerMiss = () => {
     playerGrid[compChoice].classList.add("player-miss")
-        computer.secondLastMoveHit = computer.lastMoveHit
-        computer.lastMoveHit = false
-        messageScreen.textContent = "Luckily their shot missed our ships. Strike now while we still can!"
+    computer.secondLastMoveHit = computer.lastMoveHit
+    computer.lastMoveHit = false
+    messageScreen.textContent = "Luckily their shot missed our ships. Strike now while we still can!"
 }
 
 function computerTurn(){
@@ -530,7 +471,8 @@ function computerTurn(){
 }
 
 function battleCommence(){   
-    playerNumbers.forEach(i => i.classList.add("hidden"))
+    playerNumbers.forEach(number => number.classList.add("hidden"))
+    console.log("numbers going")
     shipLengthSection.classList.remove("hidden")
     playerLives.textContent = playerPieces.length
     inputValue.classList.add("hidden")
@@ -540,6 +482,7 @@ function battleCommence(){
     }
 
 function startGame(){
+    backgroundMusic.play()
     setUpBoard()
     buildShips()
     compLives.textContent = computerPieces.length
@@ -556,20 +499,36 @@ function clearPlayerShips(){
     player.ship5 = []
 }
 
-function restartGame(){
-    clearComputerShips()
-    clearPlayerShips()
-    playerGrid.forEach(i => i.classList.remove("player-ship", "player-miss", "player-hit", "danger"))
-    enemyGrid.forEach(i => i.classList.remove("hit", "miss", "danger"))
-    playerGrid.forEach(i => i.innerHTML = '')
+const resetClasses = () => {
+    playerGrid.forEach(grid => grid.classList.remove("player-ship", "player-miss", "player-hit", "danger"))
+    enemyGrid.forEach(grid => grid.classList.remove("hit", "miss", "danger"))
     restartButton.classList.add("hidden")
+}
+
+const resetTurns = () => {
     player.isTurn = true
     computer.isTurn = true
     computer.lastMoveHit = false
     computer.secondLastMoveHit = false
     computer.lastPick = 0
     availableMoves = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63]
+}
+
+function stopMusic(){
+    victoryMusic.pause()
+    victoryMusic.currentTime = 0
+    defeatMusic.pause()
+    defeatMusic.currentTime = 0
+}
+
+function restartGame(){
+    clearComputerShips()
+    clearPlayerShips()
+    resetClasses()
+    resetTurns()
     playerNumbers.forEach(i => i.classList.remove("hidden"))
+    console.log("numbers appearing")
+    stopMusic()
     startGame()
 }
 

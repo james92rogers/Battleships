@@ -8,11 +8,19 @@ body {
   height: 100vh;
 }
 
+header {
+  display: flex;
+  justify-content: center;
+}
+
 h1 {
   font-family: "Stick No Bills", sans-serif;
   text-align: center;
-  font-size: 65px;
+  font-size: 70px;
   margin: 0;
+  padding-top: 10px;
+  border-bottom: 1px solid rgb(43, 255, 0);
+  width: 350px;
 }
 
 #screen {
@@ -23,7 +31,9 @@ h1 {
 }
 
 #message-screen {
-  background-color: rgb(13, 23, 14);
+  /* background-color: rgb(13, 23, 14); */
+  background-image: url("../assets/screen1.png");
+  background-size: cover;
   width: 600px;
   height: 60px;
   text-align: center;
@@ -68,13 +78,16 @@ input {
 
 #player-map,
 #comp-map {
-  width: 490px;
-  background-color: rgb(94, 94, 94);
-  height: 490px;
+  width: 500px;
+  /* background-color: rgb(94, 94, 94); */
+  background-image: url("../assets/screen2.png");
+  background-size: cover;
+  height: 500px;
   display: flex;
   flex-wrap: wrap;
   padding: 5px;
   border-radius: 5px;
+  border: 4px solid rgb(74, 73, 73);
 }
 
 #stats {
@@ -85,14 +98,14 @@ input {
 #player-stats,
 #comp-stats {
   width: 500px;
-  padding: 5px 5px;
+  padding: 5px 15px;
 }
 
 .player-grid,
 .comp-grid {
   width: 60px;
   height: 60px;
-  background-color: rgb(13, 23, 14);
+  /* background-color: rgb(13, 23, 14); */
 }
 
 .player-grid i {
@@ -143,16 +156,18 @@ input {
 }
 
 .hit {
-  background-color: rgb(4, 140, 33);
+  background-color: rgb(7, 228, 55);
   border-color: rgb(43, 255, 0);
 }
 
 .player-ship {
-  background-color: rgb(4, 115, 140);
+  background-color: rgb(44, 210, 10);
 }
 
 .player-hit {
-  background-color: royalblue;
+  background-color: rgba(0, 0, 0, 0);
+  background-image: url("../assets/lava-floor.gif");
+  background-size: contain;
 }
 
 .player-miss {
