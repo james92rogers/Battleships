@@ -151,6 +151,7 @@ function clearComputerShips(){
     const backgroundMusic = document.getElementById("background-music")
     const victoryMusic = document.getElementById("victory-music")
     const defeatMusic = document.getElementById("defeat-music")
+    const computerHitSound = document.getElementById("computer-hit")
 
     function fillPlayerGrid(arr){  
         for(let i = 0; i < arr.length; i++){
@@ -199,7 +200,7 @@ function clearComputerShips(){
     }
 
     function playerSetShip1(){
-        messageScreen.textContent = "Please select your starting square for your carrier (5 in length), followed by a 'h' for horizontal, or a 'v' for vertical - e.g. 24 h"
+        messageScreen.textContent = "First you must set your starting square for your carrier (5 in length), followed by a 'h' for horizontal, or a 'v' for vertical   -   e.g. 24 h"
         inputValue.classList.remove("hidden")
         submitButton.classList.remove("hidden")
         submitButton.addEventListener("click", buildPlayerShip1)
@@ -220,7 +221,7 @@ function clearComputerShips(){
         }}
   
     function playerSetShip2(){
-        messageScreen.textContent = "Please select your starting square for your battleship (4 in length), followed by a 'h' for horizontal, or a 'v' for vertical - e.g. 36 v"
+        messageScreen.textContent = "Great work! Now set your starting square for your battleship (4 in length), followed by a 'h' for horizontal, or a 'v' for vertical   -   e.g. 36 v"
         submitButton2.addEventListener("click", buildPlayerShip2)
         submitButton.classList.add("hidden")
         submitButton2.classList.remove("hidden")
@@ -241,7 +242,7 @@ function clearComputerShips(){
         }}
 
     function playerSetShip3(){
-        messageScreen.textContent = "Please select your starting square for your destroyer (3 in length), followed by a 'h' for horizontal, or a 'v' for vertical - e.g. 56 h"
+        messageScreen.textContent = "Next you need to set your starting square for your destroyer (3 in length), followed by a 'h' for horizontal, or a 'v' for vertical   -   e.g. 56 h"
         submitButton2.classList.add("hidden")
         submitButton3.classList.remove("hidden")
         submitButton3.addEventListener("click", buildPlayerShip3)
@@ -263,7 +264,7 @@ function clearComputerShips(){
     }
 
     function playerSetShip4(){
-        messageScreen.textContent = "Please select your starting square for your submarine (3 in length), followed by a 'h' for horizontal, or a 'v' for vertical - e.g. 45 v"
+        messageScreen.textContent = "Now you need to set your starting square for your submarine (3 in length), followed by a 'h' for horizontal, or a 'v' for vertical   -   e.g. 45 v"
         submitButton3.classList.add("hidden")
         submitButton4.classList.remove("hidden")
         submitButton4.addEventListener("click", buildPlayerShip4)
@@ -284,7 +285,7 @@ function clearComputerShips(){
         }}
 
     function playerSetShip5(){
-        messageScreen.textContent = "Please select your starting square for your patrol boat (2 in length), followed by a 'h' for horizontal, or a 'v' for vertical - e.g. 45 v"
+        messageScreen.textContent = "Finally, set your starting square for your patrol boat (2 in length), followed by a 'h' for horizontal, or a 'v' for vertical   -   e.g. 45 v"
         submitButton4.classList.add("hidden")
         submitButton5.classList.remove("hidden")
         submitButton5.addEventListener("click", buildPlayerShip5)
@@ -328,7 +329,7 @@ function continueGameCheck(){
 
 function checkHealth(){
        if(computerPieces.length <= 0){
-            messageScreen.textContent = "You have succesfully defeated the enemy"
+            messageScreen.textContent = "Congratulations, Captain! You have succesfully defeated the enemy fleet and saved us all!"
         } else if (computerPieces.length <= 5){
             enemyGrid.forEach(grid => grid.classList.add("danger"))
         }
@@ -336,7 +337,7 @@ function checkHealth(){
             playerGrid.forEach(cell => cell.classList.remove("grid-on"))
             playerGrid.forEach(cell => cell.classList.remove("danger"))
             playerGrid.forEach(cell => cell.classList.add("player-loss"))
-            messageScreen.textContent = "You have been defeated"
+            messageScreen.textContent = "Captain!? ... Captain!? ... CCCCCAAAAPPPTTTTAAAAIIIINNNNN!!!!!"
         } else if (playerPieces.length <= 5){
             playerGrid.forEach(grid => grid.classList.add("danger"))
         }
@@ -356,7 +357,7 @@ function checkHealth(){
     }
     checkHealth()
     if(continueGameCheck()){
-        computerTurn()
+        setTimeout(computerTurn, 750)
     } else {
         endGame()
     } } }
@@ -438,20 +439,27 @@ function computerChoosePick(){
 
 const computerHit = () => {
     //audio.play()
+    computerHitSound.play()
     playerPieces.splice(checkHit, 1)
     playerGrid[compChoice].classList.add("player-hit")
     playerLives.textContent = playerPieces.length
     computer.secondLastPick = computer.lastMoveHit
     computer.lastMoveHit = true
-    messageScreen.textContent = "They have hit one of our ships! Make them pay!"
-}
+    if(playerPieces.length <= 5){
+        messageScreen.textContent = "They've hit another of our ships, Captain. I don't know how much longer we can hold on! Retaliate now while we still can!"
+    } else{
+    messageScreen.textContent = "Captain, they just hit out of our ships! We must retaliate!"
+}}
 
 const computerMiss = () => {
     playerGrid[compChoice].classList.add("player-miss")
     computer.secondLastMoveHit = computer.lastMoveHit
     computer.lastMoveHit = false
-    messageScreen.textContent = "Luckily their shot missed our ships. Strike now while we still can!"
-}
+    if(playerPieces.length <= 5){
+        messageScreen.textContent = "Their shot missed, Captain, but we're hanging on by a thread! Take them out while we still can!"
+    } else {
+    messageScreen.textContent = "Captain, their shot missed our ships. We must strike now while we have the initiative!"
+}}
 
 function computerTurn(){
     if(computer.isTurn){
