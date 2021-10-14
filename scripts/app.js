@@ -141,7 +141,6 @@ function clearComputerShips(){
     const compLives = document.querySelector("#comp-lives")
     const playerNumbers = document.querySelectorAll(".player-grid p")
     const shipLengthSection = document.querySelector("#ship-div")
-    const audio = document.querySelector("audio")
     const submitButton = document.querySelector("#submit-button")
     const inputValue = document.querySelector("#player-box")
     const submitButton2 = document.querySelector("#submit-button-2")
@@ -152,6 +151,10 @@ function clearComputerShips(){
     const victoryMusic = document.getElementById("victory-music")
     const defeatMusic = document.getElementById("defeat-music")
     const computerHitSound = document.getElementById("computer-hit")
+    backgroundMusic.volume = 0.5
+    victoryMusic.volume = 0.5
+    defeatMusic.volume = 0.5
+    computerHitSound.volume = 0.7
 
     function fillPlayerGrid(arr){  
         for(let i = 0; i < arr.length; i++){
@@ -351,7 +354,6 @@ function checkHealth(){
         const index = computerPieces.indexOf(value)
         computerPieces.splice(index, 1)
         compLives.textContent = computerPieces.length
-      //  audio.play()
     } else {
       event.target.classList.add("miss")
     }
@@ -434,11 +436,9 @@ function computerChoosePick(){
         computerSelectAfterHit()
     } else{
         computerSelectAfterMiss()
-}
-}
+}}
 
 const computerHit = () => {
-    //audio.play()
     computerHitSound.play()
     playerPieces.splice(checkHit, 1)
     playerGrid[compChoice].classList.add("player-hit")
@@ -510,6 +510,7 @@ const resetClasses = () => {
     playerGrid.forEach(grid => grid.classList.remove("player-ship", "player-miss", "player-hit", "danger", "player-loss"))
     enemyGrid.forEach(grid => grid.classList.remove("hit", "miss", "danger"))
     restartButton.classList.add("hidden")
+    playerNumbers.forEach(i => i.classList.remove("hidden"))
 }
 
 const resetTurns = () => {
@@ -533,7 +534,6 @@ function restartGame(){
     clearPlayerShips()
     resetClasses()
     resetTurns()
-    playerNumbers.forEach(i => i.classList.remove("hidden"))
     stopMusic()
     startGame()
 }
