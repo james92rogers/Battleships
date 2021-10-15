@@ -392,32 +392,53 @@ function computerSelectAfterHit(){
 const computerSelectAfterHitAndMiss = () => {
     let nextMoveChoices = []
     let picksDifference = computer.lastPick - computer.secondLastPick
-    picksDifference === 1 ? nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 2 || i === computer.secondLastPick + 8 || i === computer.secondLastPick - 8)
-    : picksDifference === -1 ? nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 2 || i === computer.secondLastPick + 8 || i === computer.secondLastPick - 8)
-    : picksDifference === 8 && computer.lastPick % 8 === 0 ? nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 16 || i === computer.secondLastPick + 1)
-    : picksDifference === 8 && (computer.lastPick + 1) % 8 === 0 ? nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 16 || i === computer.secondLastPick - 1)
-    : picksDifference === 8 ? nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 16 || computer.secondLastPick + 1 || computer.secondLastPick - 1)
-    : picksDifference === -8 && computer.lastPick % 8 === 0 ? nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 16 || i === computer.secondLastPick + 1)
-    : picksDifference === -8 && (computer.lastPick + 1) % 8 === 0 ? nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 16 || i === computer.secondLastPick - 1)    
-    : picksDifference === -8 ? nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 16 || i === computer.secondLastPick - 1 || i === computer.secondLastPick + 1)
-    : null
-    nextMoveChoices.length > 0 ? compChoice = nextMoveChoices[Math.floor(Math.random() * nextMoveChoices.length)] : computerSelectAfterHit()
-    const index = availableMoves.indexOf(compChoice)
+    if(picksDifference === 1){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 2 || i === computer.secondLastPick + 8 || i === computer.secondLastPick - 8)
+    } else if(picksDifference === -1){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 2 || i === computer.secondLastPick + 8 || i === computer.secondLastPick - 8)
+    } else if(picksDifference === 8 && computer.lastPick % 8 === 0){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 16 || i === computer.secondLastPick + 1)
+    } else if(picksDifference === 8 && (computer.lastPick + 1) % 8 === 0){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 16 || i === computer.secondLastPick - 1)
+    } else if(picksDifference === 8){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 16 || computer.secondLastPick + 1 || computer.secondLastPick - 1)
+    } else if(picksDifference === -8 && computer.lastPick % 8 === 0){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 16 || i === computer.secondLastPick + 1)
+    } else if(picksDifference === -8 && (computer.lastPick + 1) % 8 === 0){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 16 || i === computer.secondLastPick - 1)    
+    } else if(picksDifference === -8){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 16 || i === computer.secondLastPick - 1 || i === computer.secondLastPick + 1)
+    }
+    if(nextMoveChoices.length > 0){
+        compChoice = nextMoveChoices[Math.floor(Math.random() * nextMoveChoices.length)]
+     } else{
+         computerSelectAfterHit()
+     }
+     const index = availableMoves.indexOf(compChoice)
     availableMoves.splice(index, 1)
 }
 
 const computerSelectAfter2Hits = () => {
     let nextMoveChoices = []
     let picksDifference = computer.lastPick - computer.secondLastPick
-    picksDifference === 1 && computer.lastPick % 8 === 0 ? nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 1)        
-    : picksDifference === -1 && (computer.lastPick + 1) % 8 === 0 ? nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 1)
-    : picksDifference === 1 ? nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 1)
-    : picksDifference === -1 ? nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 1)
-    : picksDifference === 8 ? nextMoveChoices = available.Moves.filter(i => i === computer.lastPick + 8)
-    : picksDifference === -8 ? nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 8)
-    : null    
-    nextMoveChoices.length > 0 ? compChoice = nextMoveChoices[Math.floor(Math.random() * nextMoveChoices.length)] : computerSelectAfterHit()
-    const index = availableMoves.indexOf(compChoice)
+    if(picksDifference === 1 && computer.lastPick % 8 === 0){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 1)        
+    } else if(picksDifference === -1 && (computer.lastPick + 1) % 8 === 0){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 1)
+    } else if(picksDifference === 1){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 1)
+    } else if(picksDifference === -1){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 1)
+    } else if(picksDifference === 8){
+        nextMoveChoices = available.Moves.filter(i => i === computer.lastPick + 8)
+    } else if(picksDifference === -8){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 8)
+    }    
+    if(nextMoveChoices.length > 0) {
+        compChoice = nextMoveChoices[Math.floor(Math.random() * nextMoveChoices.length)]
+       } else{computerSelectAfterHit()
+       }
+        const index = availableMoves.indexOf(compChoice)
     availableMoves.splice(index, 1)
 }
 
