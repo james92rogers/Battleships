@@ -39,7 +39,6 @@ let playerDirection = null
 
 function establishFirstPartOfShip(arr){
     const shipPart1 = compGrid[Math.floor(Math.random() * compGrid.length)]
-    const index = compGrid.indexOf(shipPart1)
     arr.push(shipPart1)
 }
 
