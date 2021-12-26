@@ -42,14 +42,6 @@ function establishFirstPartOfShip(arr){
     arr.push(shipPart1)
 }
 
-function createRestOfShip(arr, x){
-    const randomiser = Math.floor(Math.random()*2)
-    const incrementChoice = randomiser === 1 ? increment1 : increment2
-    for(let i = 0; i < x; i++){
-        arr.push(arr[i] + incrementChoice)
-    }
-}
-
 function locateOnGrid(arr){
     if(arr[0] % 10 <= 4 && arr[0] < 50){
         increment1 = 1
@@ -65,6 +57,15 @@ function locateOnGrid(arr){
         increment2 = -10
     }
 }
+
+function createRestOfShip(arr, x){
+    const randomiser = Math.floor(Math.random()*2)
+    const incrementChoice = randomiser === 1 ? increment1 : increment2
+    for(let i = 0; i < x; i++){
+        arr.push(arr[i] + incrementChoice)
+    }
+}
+
 
 function compareShips() {
     computerPieces = computer.ship1.concat(computer.ship2).concat(computer.ship3).concat(computer.ship4).concat(computer.ship5)
