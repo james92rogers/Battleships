@@ -106,6 +106,118 @@ When it came to the planning of this project, luckily the visuals and wireframe 
 
 ```
 
+After getting the sign off, I was free to start work on the development.
 
+## Days 2-5 - Creating MVP: ##
 
+The first aspect I got to work on was to have the computer creating its ships. I needed it to create 5 ships in total of varying lengths and ensure that the ships stayed within the grid and didn’t overlap each other. To do this, I broke the process down into smaller chunks.
 
+```
+function computerShipBuilder(x){
+    const newShip = []
+    establishFirstPartOfShip(newShip)
+    locateOnGrid(newShip)
+    createRestOfShip(newShip, x)
+    return newShip
+}
+
+function computerShip1(){
+    computer.ship1 = computerShipBuilder(4)
+}
+```
+
+First, I established the first grid space of the ship by having the computer select a number from random out of the available grid spaces. This original grid space then was used to dictate which direction the rest of the ship could be built in. For example, if the space selected was in the top left quarter of the grid, then the remaining pieces would be built either to the right or down. This ensured that the computer never went over the edge of the grid.
+
+```
+function establishFirstPartOfShip(arr){
+    const shipPart1 = compGrid[Math.floor(Math.random() * compGrid.length)]
+    arr.push(shipPart1)
+}
+
+function locateOnGrid(arr){
+    if(arr[0] % 10 <= 4 && arr[0] < 50){
+        increment1 = 1
+        increment2 = 10
+    } else if(arr[0] % 10 <= 4 && arr[0] > 50){
+        increment1 = 1
+        increment2 = -10
+    } else if(arr[0] < 50){
+        increment1 = -1
+        increment2 = 10
+    } else{
+        increment1 = -1
+        increment2 = -10
+    }
+}
+```
+
+Once this was established, I set up a function that randomly decided which of the increments to use, and then built the rest of the ship to the desired length.
+
+```
+function createRestOfShip(arr, x){
+    const randomiser = Math.floor(Math.random()*2)
+    const incrementChoice = randomiser === 1 ? increment1 : increment2
+    for(let i = 0; i < x; i++){
+        arr.push(arr[i] + incrementChoice)
+    }
+}
+```
+
+I created the longest ship for the computer first, as this meant future overlapping of ships would become less likely. For the other ships, after it was created I ran a check to see if any of the ship grid spaces overlapped. If they did, it simply recreated the last ship created. To do this I created an array made up of all the computer ships grid placements, then used this to make a new set to eliminate any duplicates. I compared the lengths, and if they were the same then I knew they were no overlapping ships.
+
+```
+function computerShip2(){
+    computer.ship2 = computerShipBuilder(3)
+    if(!compareShips()){
+        computerShip2()
+    }
+}
+```
+
+```
+function compareShips() {
+    computerPieces = computer.ship1.concat(computer.ship2).concat(computer.ship3).concat(computer.ship4).concat(computer.ship5)
+    testForDuplicates = new Set(computerPieces)
+     return computerPieces.length === Array.from(testForDuplicates).length
+}
+```
+
+After this was complete, the computer was successfully creating five different ships, all within the grid and none of which overlapped.
+
+The player selection was done in a similar way. The player was prompted to type in their desired starting location for their ship, followed by a ‘v’ or a ‘h’ to determine if their ship would be placed vertically or horizontally. The code would then check to see if the ship would fit on the grid. If it did, the ship was built, the grids on the player’s grid became coloured in, and the process moved on to the next ship. If it didn’t, or if the ship overlapped an existing player ship, the process for that ship started again.
+
+```
+function collectPlayerData(){
+        playerShip = document.getElementById("player-box").value
+        playerShipStart = parseFloat(playerShip)
+        playerDirection = playerShip.toLowerCase().split("")
+    }
+
+    function playerShipBuilder(arr, x){
+        let playerIncrement = 0
+        if(playerDirection.includes("h")){
+         playerIncrement = 1
+        } else if(playerDirection.includes("v")){
+         playerIncrement = 8
+        } 
+        arr.push(playerShipStart)
+        let lastShipPart = playerShipStart
+        for(let i = 0; i < x; i++){
+        arr.push(lastShipPart + playerIncrement)
+        lastShipPart += playerIncrement  
+        }
+    }
+
+    function buildPlayerShip1(){
+        collectPlayerData()
+        if((playerDirection.includes("h") && playerShipStart % 8 < 4) || (playerDirection.includes("v") && playerShipStart < 32)){
+            playerShipBuilder(player.ship1, 4)
+            fillPlayerGrid(player.ship1)
+            playerSetShip2()
+        } else{
+            window.alert("invalid entry. Please try again")
+        }
+    }
+    ```
+    
+    aaaa
