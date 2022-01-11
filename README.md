@@ -2,7 +2,7 @@
 
 Solo Project  
 Time Frame: 8 days  
-Play The Game:https://bit.ly/jrbattleships  
+Play The Game: https://bit.ly/jrbattleships  
 
 
 ## Overview ##
