@@ -192,8 +192,8 @@ function collectPlayerData(){
         playerShipStart = parseFloat(playerShip)
         playerDirection = playerShip.toLowerCase().split("")
     }
-
-    function playerShipBuilder(arr, x){
+        
+function playerShipBuilder(arr, x){
         let playerIncrement = 0
         if(playerDirection.includes("h")){
          playerIncrement = 1
@@ -208,7 +208,7 @@ function collectPlayerData(){
         }
     }
 
-    function buildPlayerShip1(){
+ function buildPlayerShip1(){
         collectPlayerData()
         if((playerDirection.includes("h") && playerShipStart % 8 < 4) || (playerDirection.includes("v") && playerShipStart < 32)){
             playerShipBuilder(player.ship1, 4)
@@ -218,6 +218,112 @@ function collectPlayerData(){
             window.alert("invalid entry. Please try again")
         }
     }
-    ```
-    
-    aaaa
+```
+
+Once the ships were created, it was time to have them fire at one another. Again, these methods were somewhat similar, with the main difference being that the computer chose a random grid space from an array whereas the player choice was determined by where they clicked.
+
+```
+function playerFire(event){
+        if(player.isTurn){
+        const value = parseFloat(event.target.getAttribute("value"))
+    if (computerPieces.includes(value)){
+        event.target.classList.add("hit")
+        const index = computerPieces.indexOf(value)
+        computerPieces.splice(index, 1)
+        compLives.textContent = computerPieces.length
+    } else {
+      event.target.classList.add("miss")
+    }
+    checkHealth()
+    if(continueGameCheck()){
+        setTimeout(computerTurn, 750)
+    } else {
+        endGame()
+    } } }
+```
+
+Once the target had been established, the next thing to do was to work out if it was a hit or a miss, and change the styling on the grid space accordingly using DOM manipulation. After this, I created a function to check for the health of the player who had just been attacked. If a player’s health dropped to 5 or less, their grid style would change to start flashing red using a simple CSS animation I created. This also changed the messages the player would receive each turn (so if the computer was low on health the messages would urge the user to victory, whereas if the user was low on health, the messages would become more urgent).
+
+After checking the health, the final thing to do was establish if the game needed to continue. This was done through a simple function that returned a boolean value depending on if either players’ health had reached 0. If it hadn’t, the game moved to the next player after a short timeout, and if it had then it triggered the endgame function.
+
+```
+function continueGameCheck(){
+    return playerPieces.length > 0 && computerPieces.length > 0
+}
+
+function checkHealth(){
+       if(computerPieces.length <= 0){
+            messageScreen.textContent = "Congratulations, Captain! You have succesfully defeated the enemy fleet and saved us all!"
+        } else if (computerPieces.length <= 5){
+            enemyGrid.forEach(grid => grid.classList.add("danger"))
+        }
+        if(playerPieces.length <= 0){
+            playerGrid.forEach(cell => cell.classList.remove("grid-on"))
+            playerGrid.forEach(cell => cell.classList.remove("danger"))
+            playerGrid.forEach(cell => cell.classList.add("player-loss"))
+            messageScreen.textContent = "Captain!? ... Captain!? ... CCCCCAAAAPPPTTTTAAAAIIIINNNNN!!!!!"
+        } else if (playerPieces.length <= 5){
+            playerGrid.forEach(grid => grid.classList.add("danger"))
+        }
+    }
+ ```
+ 
+Once the endgame function was triggered, the grids and messages would change depending on who was victorious, and there were also different pieces of music that would play depending on if the user won or lost. This function also revealed a button that allowed the user to start another game without reloading the entire page.
+
+## Days 6 & 7 - Extra Logic: ##
+
+After setting up the functionality to have a basic game running, I then decided to go for one of my stretch goals to make the computer make its selections more tactically. Again, I decided to break this down into several steps. First, I added in two new variables that were booleans to track if the computer’s last two moves were hits or misses. If the last move was a hit, it would then filter from the available moves for spaces that were next to the last move location (this meant having to add in different options for the far left and far right of the grid, as otherwise the computer could select 1 position higher/lower for the next turn, which would be on a different row). If the second last move was a hit, but the last one was a miss, it would filter from the available moves for spaces next to the space that was a hit. Finally, if the last two moves were both hits, it would look at the direction the two moves were made in and then continue along that same path.
+
+```
+function computerSelectAfterHit(){
+    let nextMoveChoices = []
+    if(computer.lastPick % 8 === 0){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 1 || i === computer.lastPick + 8 || i === computer.lastPick - 8)
+    } else if((computer.lastPick + 1) % 8 === 0){
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick - 1 || i === computer.lastPick + 8 || i === computer.lastPick - 8)
+    } else{
+        nextMoveChoices = availableMoves.filter(i => i === computer.lastPick + 1 || i === computer.lastPick - 1 || i === computer.lastPick + 8 || i === computer.lastPick - 8)
+    }
+    nextMoveChoices.length > 0 ? compChoice = nextMoveChoices[Math.floor(Math.random() * nextMoveChoices.length)] : computerSelectAfterMiss()
+    const index = availableMoves.indexOf(compChoice)
+    availableMoves.splice(index, 1)
+}
+```
+
+## Day 8 - Styling: ##
+
+Once everything was running smoothly, I went to work on the styling. I decided to give my game the feel of being on an actual battleship, looking at a radar screen. I used an old terminal screen background image for the grids and then added a glow effect to the lines of the actual grid itself to give it the feel of an old radar computer. If the player lost the game, I had the entire player grid turn to static, as the narrative would be that the player has been destroyed.
+
+![Screenshot of the player grid at the start and end of the game](./assets/readme_images/grids.png)
+
+I decided to have different styles for the player grid and computer grid to further differentiate the two and avoid any confusion. As a result, misses and hits on the computer grid are displayed by the grid space turning red or green. On the player grid they are resembled by crosses and static.
+
+In the CSS I also added the extra class for when a player was in ‘danger’. This class was triggered when a player fell under 5 health, and as such would start a looping animation that caused the grid to start pulsing between red and green.
+
+## Wins and Blockers: ##
+
+Overall I consider the project a win, as at the end of the project I had a working game which my fellow classmates seemed to enjoy. I really got a hang of using DOM manipulation to toggle classes which allowed me to have different things appearing on the screen at different times (such as the red flashing animation, the reload game button, the text input for user ship creation, and even the numbers on the user grid). I also really got into the hang of making my functions more concise, but I know I could still do a better job.
+
+For me the biggest blocker was the time it took me to get the computer ship placements working. It took me longer than I had originally thought it would. Getting the ships to not overlap was simple enough, but keeping them within the grid was frustrating. I finally came up with the idea to limit the directions the ships could be built in considering where the first selection was, and once I got this working the rest of the process really fell into place.
+
+Ironically I would also call this process one of my biggest wins. For my first project, certain aspects of my code were not DRY, however the functions for building computer ships seemed really clean and simple. I think this was due to me taking the longest time working on it, but it certainly really demonstrated to me the advantages of keeping my code DRY and simple.
+
+## Bugs: ##
+
+* The user is able to click on a square they had already selected, and this will count as their go.
+* If you play through several games in a row without reloading the page, occasionally the computer doesn’t take a turn.
+
+## Key Learnings: ##
+
+* DOM Manipulation.
+* Use of Audio.
+* Furthering my understanding of JavaScript fundamentals.
+* The benefits of DRY, concise code.
+
+## Future Content: ##
+
+* Perfect the computer’s intelligence when picking moves.
+* Show how many ships are still alive as opposed to the total tiles remaining.
+* Add in different difficulty modes.
+
+
